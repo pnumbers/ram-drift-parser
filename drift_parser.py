@@ -3,7 +3,7 @@ from dataclasses import dataclass
 import re
 import os
 
-FILE = "raw_data.csv"
+FILE = "raw_data_drift_cases.csv"
 FILE_PATH = FILE
 
 # TODO Add in arg parsing for commandline runs
@@ -27,11 +27,12 @@ class RamDriftImporter:
         self.load_cases = {}
         self.drift_data = {}
         self.torsion_data = {}
+        self.story_heights = {}
         # Automatically run the parser if an input file is given
         if self.import_file_path and os.path.exists(self.import_file_path):
             self.import_drift_data()
             self.parse_data()
-            return (self.load_cases, self.drift_data, self.torsion_data)
+            # return (self.load_cases, self.drift_data, self.torsion_data)
 
     def import_drift_data(self) -> None:
         """Imports the raw data csv file from RAM and stores the data
@@ -126,20 +127,24 @@ class RamDriftImporter:
             if "-Axis" in row[0]:
                 if axis:
                     self.torsion_data[axis] = axis_dict
-                axis = row[0]
+                axis = row[0][:-1]
                 axis_dict = {}
                 skip = 2
                 continue
 
+            # Skips the header line and the units lines
             if skip:
+                # print("skip", skip)
                 skip -= 1
                 continue
 
             story = row[0]
-            load_case = row[1]
+            load_case = row[1].strip()
+
             # Check is the load case is not a drift case. If it is not a
             #  drift case then the data is not valid
-            if load_case not in self.load_cases:
+            if (load_case != "-") and (load_case not in self.load_cases):
+                # print("breaking at: |", load_case, "|")
                 self.torsion_data = None
                 break
 
@@ -181,6 +186,18 @@ class RamDriftImporter:
         self.parse_drift_data()
         self.parse_torsional_data()
 
+    def get_output(self):
+        return (self.load_cases, self.drift_data, self.torsion_data)
+
+    def get_torsional_output(self):
+        return self.torsion_data
+
+    def get_load_cases_output(self):
+        return self.get_load_cases
+
+    def get_drift_output(self):
+        return self.drift_data
+
     # This function isn't currently all that useful. It prints too
     # data and the data is too messy to read. Consider a better way to
     # handle this. Also consider if this is necessary.
@@ -189,16 +206,52 @@ class RamDriftImporter:
         print(self.drift_data)
         print(self.torsion_data)
 
+    def get_Ax_values(self):
+        for axis in self.torsion_data:
+            print("Axis: ", axis)
+            for story in self.torsion_data[axis]:
+                print(f"{story}: Ax=", self.torsion_data[axis][story]["Ax"])
+
+    def get_story_heights(self):
+        for cp in self.drift_data:
+            for story in self.drift_data[cp]["drifts"].keys():
+                self.story_heights[story] = input(f"{story} (ft): ")
+            break
+        # print(self.drift_data)
+
+
+def cmd_line_main():
+    drift_importer = RamDriftImporter(FILE_PATH)
+    print("************     Welcome to the RAM Drift Importer!     ************")
+    on = True
+
+    while on:
+        print("Welcome to the drift")
+        msg = """Quit"""
+        print(msg)
+        selection = input("Selection: ").strip()
+        if selection == "q" or selection == "quit":
+            on = False
+
 
 def main():
     drift_importer = RamDriftImporter(FILE_PATH)
+    # output = drift_importer.get_output()
+    output = drift_importer.get_torsional_output()
+    drift_importer.get_Ax_values()
+    drift_importer.get_story_heights()
+    # print(output)
+    # for axis in output:
+    #     print(output[axis])
+
     # drift_importer.import_drift_data()
     # drift_importer.parse_data()
     # drift_importer.print_data()
 
 
 if __name__ == "__main__":
-    main()
+    # main()
+    cmd_line_main()
 
 
 # @dataclass
