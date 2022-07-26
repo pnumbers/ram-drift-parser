@@ -17,7 +17,8 @@ class RamDriftImporter:
     been set in RAM Frame."""
 
     def __init__(self, import_file_path=None) -> None:
-        self.import_file_path = import_file_path
+        # self.import_file_path = import_file_path
+        self.set_import_file_path(import_file_path)
         self.data = None
         # Indexes for the section dividers of the data array
         self.results_title_index = None
@@ -198,6 +199,14 @@ class RamDriftImporter:
     def get_drift_output(self):
         return self.drift_data
 
+    def set_import_file_path(self, filepath):
+        if filepath and os.path.exists(filepath):
+            self.import_file_path = filepath
+            return True
+        else:
+            self.import_file_path = None
+            return False
+
     # This function isn't currently all that useful. It prints too
     # data and the data is too messy to read. Consider a better way to
     # handle this. Also consider if this is necessary.
@@ -206,13 +215,16 @@ class RamDriftImporter:
         print(self.drift_data)
         print(self.torsion_data)
 
-    def get_Ax_values(self):
+    def print_Ax_values(self) -> None:
+        """Prints the torsional amplification values (Ax) by story for
+        each axis"""
         for axis in self.torsion_data:
             print("Axis: ", axis)
             for story in self.torsion_data[axis]:
                 print(f"{story}: Ax=", self.torsion_data[axis][story]["Ax"])
 
-    def get_story_heights(self):
+    def set_story_heights(self) -> None:
+        """Requests user input to set the story heights"""
         for cp in self.drift_data:
             for story in self.drift_data[cp]["drifts"].keys():
                 self.story_heights[story] = input(f"{story} (ft): ")
@@ -222,24 +234,48 @@ class RamDriftImporter:
 
 def cmd_line_main():
     drift_importer = RamDriftImporter(FILE_PATH)
+    os.system("CLS")
     print("************     Welcome to the RAM Drift Importer!     ************")
     on = True
-
     while on:
-        print("Welcome to the drift")
-        msg = """Quit"""
+        msg = """
+        ******    Menu    ******
+        1) Import File
+        2) Import Story Heights
+        3) Report "Ax" Values          (Coming Soon)
+        4) Report Drift Percentages    (Coming Soon)
+
+        
+        q) Quit (quit or q)
+        """
         print(msg)
-        selection = input("Selection: ").strip()
+        selection = input("Selection: ").strip().lower()
+
         if selection == "q" or selection == "quit":
             on = False
+
+        if selection == "1":
+            if not import_file(drift_importer):
+                continue
+
+
+def import_file(drift_importer):
+    filepath = input("Provide filepath to import: ")
+    if not drift_importer.set_import_file_path(filepath):
+        print("\nFilepath does not exist.")
+        return False
+    print("Import successful.")
+    drift_importer.parse_data()
+    drift_importer.print_data()
+    return True
 
 
 def main():
     drift_importer = RamDriftImporter(FILE_PATH)
     # output = drift_importer.get_output()
     output = drift_importer.get_torsional_output()
-    drift_importer.get_Ax_values()
-    drift_importer.get_story_heights()
+    drift_importer.print_Ax_values()
+    drift_importer.set_story_heights()
     # print(output)
     # for axis in output:
     #     print(output[axis])
@@ -250,8 +286,7 @@ def main():
 
 
 if __name__ == "__main__":
-    # main()
-    cmd_line_main()
+    main()
 
 
 # @dataclass
