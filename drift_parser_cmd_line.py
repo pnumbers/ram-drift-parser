@@ -12,6 +12,9 @@ class DriftCommandLine:
         os.system("CLS")
         print("************     Welcome to the RAM Drift Importer!     ************")
         while self.main_loop_on:
+
+            self.report_input_info()
+
             msg = """
             ******    Menu    ******
             1) Import File
@@ -54,6 +57,12 @@ class DriftCommandLine:
         self.drift_importer.parse_data()
         self.drift_importer.print_data()
         return True
+
+    def report_input_info(self):
+        info = f"""
+        ****** Input Info *********
+        Input file: 
+        """
 
 
 def main():
