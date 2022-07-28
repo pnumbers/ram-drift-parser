@@ -46,7 +46,13 @@ class DriftCommandLine:
                         self.drift_importer.parse_data()
 
                 case "2":
-                    self.drift_importer.set_story_heights()
+                    if self.drift_importer.data == None:
+                        msg = """
+                        No story data available. Import a ram drift csv file
+                        prior to setting story heights."""
+                        print(msg)
+                    else:
+                        self.drift_importer.set_story_heights()
 
     def import_file(self):
         filepath = input("Provide filepath to import: ")
