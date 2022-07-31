@@ -243,6 +243,8 @@ class RamDriftImporter:
 
     def set_drift_limits(self):
         self.drift_limits = {}
+        wind_total_drift_limit = self.total_height * 12 / 500
+        self.drift_limits['wind_total'] = wind_total_drift_limit
         for story in self.story_heights:
             print(f"{story}: Drift Limit")
 
