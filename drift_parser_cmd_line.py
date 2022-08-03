@@ -69,6 +69,7 @@ class DriftCommandLine:
         ****** Input Info *********
         Input file: 
         """
+        print(info)
 
 
 def main():
