@@ -3,7 +3,8 @@ from dataclasses import dataclass
 import re
 import os
 
-FILE = "raw_data_drift_cases.csv"
+# FILE = "raw_data_drift_cases.csv"
+FILE = "raw_data.csv"
 FILE_PATH = FILE
 
 # TODO Add in arg parsing for commandline runs
@@ -29,6 +30,7 @@ class RamDriftImporter:
         self.drift_data = {}
         self.torsion_data = {}
         self.story_heights = {}
+        self.total_height = None
         # Automatically run the parser if an input file is given
         if self.import_file_path and os.path.exists(self.import_file_path):
             self.import_drift_data()
@@ -218,19 +220,36 @@ class RamDriftImporter:
     def print_Ax_values(self) -> None:
         """Prints the torsional amplification values (Ax) by story for
         each axis"""
-        for axis in self.torsion_data:
-            print("Axis: ", axis)
-            for story in self.torsion_data[axis]:
-                print(f"{story}: Ax=", self.torsion_data[axis][story]["Ax"])
+        if self.torsion_data:
+            for axis in self.torsion_data:
+                print("Axis: ", axis)
+                for story in self.torsion_data[axis]:
+                    print(f"{story}: Ax=", self.torsion_data[axis][story]["Ax"])
+        else:
+            print('\nTorsion Data Not Available. Import a csv file with drift only cases.\n')
 
     def set_story_heights(self) -> None:
         """Requests user input to set the story heights"""
         for cp in self.drift_data:
             for story in self.drift_data[cp]["drifts"].keys():
-                self.story_heights[story] = input(f"{story} (ft): ")
+                self.story_heights[story] = float(input(f"{story} (ft): "))
+            self.set_total_height()
             break
-        # print(self.drift_data)
 
+    def set_total_height(self):
+        self.total_height = 0
+        for story in self.story_heights:
+            self.total_height += self.story_heights[story]
+
+    def set_drift_limits(self):
+        self.drift_limits = {}
+        wind_total_drift_limit = self.total_height * 12 / 500
+        self.drift_limits['wind_total'] = wind_total_drift_limit
+        for story in self.story_heights:
+            print(f"{story}: Drift Limit")
+
+
+# def wind_
 
 def cmd_line_main():
     drift_importer = RamDriftImporter(FILE_PATH)
@@ -276,6 +295,8 @@ def main():
     output = drift_importer.get_torsional_output()
     drift_importer.print_Ax_values()
     drift_importer.set_story_heights()
+    drift_importer.set_drift_limits()
+    # print(drift_importer.torsion_data)
     # print(output)
     # for axis in output:
     #     print(output[axis])
