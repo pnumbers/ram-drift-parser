@@ -1,3 +1,4 @@
+from xmlrpc.client import Boolean
 from drift_parser import RamDriftImporter
 import os
 
@@ -8,7 +9,7 @@ class DriftCommandLine:
         self.main_loop_on = True
         self.main_loop()
 
-    def main_loop(self):
+    def main_loop(self) -> None:
         os.system("CLS||clear")
         print("************     Welcome to the RAM Drift Importer!     ************")
         while self.main_loop_on:
@@ -44,8 +45,10 @@ class DriftCommandLine:
                         print(msg)
                     else:
                         self.drift_importer.set_story_heights()
+        
+        return None
 
-    def import_file(self):
+    def import_file(self) -> bool:
         filepath = input("Provide filepath to import: ")
         if not self.drift_importer.set_import_file_path(filepath):
             print("\nFilepath does not exist.")
@@ -55,16 +58,18 @@ class DriftCommandLine:
         self.drift_importer.print_data()
         return True
 
-    def report_input_info(self):
+    def report_input_info(self) -> None:
         info = f"""
         ****** Input Info *********
-        Input file: 
+        Input file: {self.drift_importer.import_file_path}
         """
-        print('****** Input Info *********')
+        print('\n****** Input Info *********')
         print(f'Input file: {self.drift_importer.import_file_path}')
         # print(info)
+        return None
+
     
-    def print_main_menu(self):
+    def print_main_menu(self) -> None:
         msg = """
             ******    Menu    ******
             1) Import File
@@ -75,6 +80,7 @@ class DriftCommandLine:
             q) Quit (quit or q)
             """
         print(msg)
+        return None
 
 
 
