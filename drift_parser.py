@@ -251,44 +251,6 @@ class RamDriftImporter:
 
 # def wind_
 
-def cmd_line_main():
-    drift_importer = RamDriftImporter(FILE_PATH)
-    os.system("CLS")
-    print("************     Welcome to the RAM Drift Importer!     ************")
-    on = True
-    while on:
-        msg = """
-        ******    Menu    ******
-        1) Import File
-        2) Import Story Heights
-        3) Report "Ax" Values          (Coming Soon)
-        4) Report Drift Percentages    (Coming Soon)
-
-        
-        q) Quit (quit or q)
-        """
-        print(msg)
-        selection = input("Selection: ").strip().lower()
-
-        if selection == "q" or selection == "quit":
-            on = False
-
-        if selection == "1":
-            if not import_file(drift_importer):
-                continue
-
-
-def import_file(drift_importer):
-    filepath = input("Provide filepath to import: ")
-    if not drift_importer.set_import_file_path(filepath):
-        print("\nFilepath does not exist.")
-        return False
-    print("Import successful.")
-    drift_importer.parse_data()
-    drift_importer.print_data()
-    return True
-
-
 def main():
     drift_importer = RamDriftImporter(FILE_PATH)
     # output = drift_importer.get_output()

@@ -45,7 +45,6 @@ class DriftCommandLine:
                         print(msg)
                     else:
                         self.drift_importer.set_story_heights()
-        
         return None
 
     def import_file(self) -> bool:
