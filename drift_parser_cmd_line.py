@@ -9,22 +9,12 @@ class DriftCommandLine:
         self.main_loop()
 
     def main_loop(self):
-        os.system("CLS")
+        os.system("CLS||clear")
         print("************     Welcome to the RAM Drift Importer!     ************")
         while self.main_loop_on:
 
             self.report_input_info()
-
-            msg = """
-            ******    Menu    ******
-            1) Import File
-            2) Set Story Heights
-            3) Report "Ax" Values          (Coming Soon)
-            4) Report Drift Percentages    (Coming Soon)
-        
-            q) Quit (quit or q)
-            """
-            print(msg)
+            self.print_main_menu()
             selection = input("Selection: ").strip().lower()
 
             if selection == "q" or selection == "quit":
@@ -73,6 +63,19 @@ class DriftCommandLine:
         print('****** Input Info *********')
         print(f'Input file: {self.drift_importer.import_file_path}')
         # print(info)
+    
+    def print_main_menu(self):
+        msg = """
+            ******    Menu    ******
+            1) Import File
+            2) Set Story Heights
+            3) Report "Ax" Values          (Coming Soon)
+            4) Report Drift Percentages    (Coming Soon)
+        
+            q) Quit (quit or q)
+            """
+        print(msg)
+
 
 
 def main():
