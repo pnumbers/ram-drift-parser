@@ -43,6 +43,7 @@ class DriftCommandLine:
                         print("\nFilepath does not exist.")
                         continue
                     else:
+                        self.drift_importer.import_drift_data()
                         self.drift_importer.parse_data()
 
                 case "2":
@@ -69,7 +70,9 @@ class DriftCommandLine:
         ****** Input Info *********
         Input file: 
         """
-        print(info)
+        print('****** Input Info *********')
+        print(f'Input file: {self.drift_importer.import_file_path}')
+        # print(info)
 
 
 def main():

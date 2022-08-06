@@ -3,8 +3,8 @@ from dataclasses import dataclass
 import re
 import os
 
-# FILE = "raw_data_drift_cases.csv"
-FILE = "raw_data.csv"
+FILE = "raw_data_drift_cases.csv"
+# FILE = "raw_data.csv"
 FILE_PATH = FILE
 
 # TODO Add in arg parsing for commandline runs
