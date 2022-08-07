@@ -9,11 +9,17 @@ FILE = "raw_data_drift_cases.csv"
 # FILE = "raw_data.csv"
 FILE_PATH = FILE
 
-# TODO Add in arg parsing for commandline runs
-# TODO Create a way to parse drfit outputs to give deflections
-# TODO Add in commandline output of deflections and torsion irregularity
-# TODO Add in support to parse the data for torsional irregularity without
+# TODO: Add in arg parsing for commandline runs
+# TODO: Create a way to parse drfit outputs to give deflections
+# TODO: Add in commandline output of deflections and torsion irregularity
+# TODO: Add in support to parse the data for torsional irregularity without
 # the use of RAM's torsional data based on the drift only cases
+
+# TODO: Think through importing when
+#  a) A file has already been imported
+#  b) The file location changes
+#  c) The number of stories changes
+#  d) The control points change 
 class RamDriftImporter:
     """A class that imports and parses drift output from RAM Structural
     System's Frame module. This class requires control points to have
@@ -224,7 +230,7 @@ class RamDriftImporter:
         for cp in self.drift_data:
             for story in self.drift_data[cp]["drifts"].keys():
                 stories.append(story)
-        return stories
+            return stories
 
     def set_stories(self) -> List[str]:
         """Set the stories by parsing the drift data.
@@ -291,15 +297,6 @@ class RamDriftImporter:
             print('\nTorsion Data Not Available. Import a csv file with drift only cases.\n')
 
     # Set Functions Section
-    def set_story_heights(self) -> None:
-        """Requests user input to set the story heights"""
-        # TODO: Split up this function into a setter function and put
-        #       the cmdline functionality in the cmd_line class
-        for cp in self.drift_data:
-            for story in self.drift_data[cp]["drifts"].keys():
-                self.story_heights[story] = float(input(f"{story} (ft): "))
-            self.set_total_height()
-            break
 
     def set_story_heights(self, height_dict) -> None:
         """Sets the story heights"""

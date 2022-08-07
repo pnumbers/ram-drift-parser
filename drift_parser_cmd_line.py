@@ -34,19 +34,27 @@ class DriftCommandLine:
                         print("\nFilepath does not exist.")
                         continue
                     else:
-                        self.drift_importer.import_drift_data()
-                        self.drift_importer.parse_data()
+                        # self.drift_importer.import_drift_data()
+                        # self.drift_importer.parse_data()
+                        self.drift_importer.first_import()
 
                 case "2":
+                    if self.drift_importer.import_file_path:
+                        self.drift_importer.reimport()
+                        print("Import successful")
+                    else:
+                        print("No import file found. Press 1 to provide an import file")
+
+                case "3":
                     if self.drift_importer.data == None:
                         msg = """
                         No story data available. Import a ram drift csv file
                         prior to setting story heights."""
                         print(msg)
                     else:
-                        self.drift_importer.set_story_heights()
+                        self.set_story_heights()
 
-                case "3":
+                case "4":
                     self.report_Ax()
         return None
 
@@ -77,15 +85,26 @@ class DriftCommandLine:
     def print_main_menu(self) -> None:
         msg = """
             ******    Menu    ******
-            1) Import File
-            2) Set Story Heights
-            3) Report "Ax" Values
-            4) Report Drift Percentages    (Coming Soon)
+            1) Set RAM Data File & Import
+            2) Re-import Data
+            3) Set Story Heights
+            4) Report "Ax" Values
+            5) Report Drift Percentages    (Coming Soon)
         
             q) Quit (quit or q)
             """
         print(msg)
         return None
+
+    def set_story_heights(self) -> None:
+        """Requests user input to set the story heights"""
+        # TODO: Split up this function into a setter function and put
+        #       the cmdline functionality in the cmd_line class
+        height_dict = {}
+        for story in self.drift_importer.stories:
+            height_dict[story] = float(input(f"{story} (ft): "))
+        self.drift_importer.set_story_heights(height_dict)
+        self.drift_importer.set_total_height()
 
 
 
