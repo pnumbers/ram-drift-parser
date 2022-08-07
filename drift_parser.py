@@ -222,7 +222,7 @@ class RamDriftImporter:
         each axis"""
         if self.torsion_data:
             for axis in self.torsion_data:
-                print("Axis: ", axis)
+                print("\nAxis: ", axis)
                 for story in self.torsion_data[axis]:
                     print(f"{story}: Ax=", self.torsion_data[axis][story]["Ax"])
         else:

@@ -45,6 +45,9 @@ class DriftCommandLine:
                         print(msg)
                     else:
                         self.drift_importer.set_story_heights()
+
+                case "3":
+                    self.report_Ax()
         return None
 
     def import_file(self) -> bool:
@@ -67,13 +70,16 @@ class DriftCommandLine:
         # print(info)
         return None
 
+    def report_Ax(self):
+        self.drift_importer.print_Ax_values()
+        input('\nPress any key to continue...')
     
     def print_main_menu(self) -> None:
         msg = """
             ******    Menu    ******
             1) Import File
             2) Set Story Heights
-            3) Report "Ax" Values          (Coming Soon)
+            3) Report "Ax" Values
             4) Report Drift Percentages    (Coming Soon)
         
             q) Quit (quit or q)
