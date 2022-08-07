@@ -236,11 +236,19 @@ class RamDriftImporter:
     # Set Functions Section
     def set_story_heights(self) -> None:
         """Requests user input to set the story heights"""
+        # TODO: Split up this function into a setter function and put
+        #       the cmdline functionality in the cmd_line class
         for cp in self.drift_data:
             for story in self.drift_data[cp]["drifts"].keys():
                 self.story_heights[story] = float(input(f"{story} (ft): "))
             self.set_total_height()
             break
+
+    def set_story_heights(self, height_dict) -> None:
+        """Sets the story heights"""
+        
+        self.story_heights = height_dict
+        self.set_total_height()
 
     def set_total_height(self):
         self.total_height = 0
