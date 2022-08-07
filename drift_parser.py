@@ -1,5 +1,7 @@
-import csv
+from typing import List, Set, Dict, Tuple, Optional
 from dataclasses import dataclass
+
+import csv
 import re
 import os
 
@@ -29,12 +31,15 @@ class RamDriftImporter:
         self.load_cases = {}
         self.drift_data = {}
         self.torsion_data = {}
+        self.stories = []
         self.story_heights = {}
         self.total_height = None
         # Automatically run the parser if an input file is given
         if self.import_file_path and os.path.exists(self.import_file_path):
-            self.import_drift_data()
-            self.parse_data()
+            self.first_import()
+            # self.import_drift_data()
+            # self.parse_data()
+            # self.set_stories()
             # return (self.load_cases, self.drift_data, self.torsion_data)
 
     # Importing Data Section
@@ -52,6 +57,21 @@ class RamDriftImporter:
         else:
             self.import_file_path = None
             return False
+
+    def first_import(self) -> None:
+        """Imports data from current import_file, parses data,
+        and sets stories.
+        """
+        self.import_drift_data()
+        self.parse_data()
+        self.set_stories()
+
+    def reimport(self):
+        self.import_drift_data()
+        self.parse_data()
+        if not self.check_stories():
+            self.set_stories()
+            self.wipe_story_heights()
 
     # Parsing Data Section
     def get_section_indexes(self) -> None:
@@ -199,6 +219,37 @@ class RamDriftImporter:
         self.parse_drift_data()
         self.parse_torsional_data()
 
+    def parse_stories(self):
+        stories = []
+        for cp in self.drift_data:
+            for story in self.drift_data[cp]["drifts"].keys():
+                stories.append(story)
+        return stories
+
+    def set_stories(self) -> List[str]:
+        """Set the stories by parsing the drift data.
+        
+        self.stories = self.parse_stories()
+        """
+
+        self.stories = self.parse_stories()
+
+    def check_stories(self) -> bool:
+        """Checks if the current stories list is equal to the stories
+        in the current drift data.
+        
+        Returns True if the stories match. False otherwise
+        """
+
+        if self.stories == self.parse_stories():
+            return True
+        else:
+            return False
+
+    def wipe_story_heights(self):
+        self.story_heights = {}
+        self.total_height = None
+
     # Output Data Section
     def get_all_output(self):
         return (self.load_cases, self.drift_data, self.torsion_data)
@@ -212,14 +263,20 @@ class RamDriftImporter:
     def get_drift_output(self):
         return self.drift_data
 
+    def get_stories(self):
+        return self.stories
+
     # Print Data Section
     
     # This function isn't currently all that useful. It prints too much
     # data and the data is too messy to read. Consider a better way to
     # handle this. Also consider if this is necessary.
     def print_data(self) -> None:
+        print("\nLoad Cases:\n")
         print(self.load_cases)
+        print("\nDrift Data\n")
         print(self.drift_data)
+        print("\nTorion Data\n")
         print(self.torsion_data)
 
     def print_Ax_values(self) -> None:
@@ -267,11 +324,15 @@ class RamDriftImporter:
 
 def main():
     drift_importer = RamDriftImporter(FILE_PATH)
+
+    # Print All Data
+    drift_importer.print_data()
+
     # output = drift_importer.get_all_output()
-    output = drift_importer.get_torsional_output()
-    drift_importer.print_Ax_values()
-    drift_importer.set_story_heights()
-    drift_importer.set_drift_limits()
+    # output = drift_importer.get_torsional_output()
+    # drift_importer.print_Ax_values()
+    # drift_importer.set_story_heights()
+    # drift_importer.set_drift_limits()
     # print(drift_importer.torsion_data)
     # print(output)
     # for axis in output:
