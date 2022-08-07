@@ -37,6 +37,7 @@ class RamDriftImporter:
             self.parse_data()
             # return (self.load_cases, self.drift_data, self.torsion_data)
 
+    # Importing Data Section
     def import_drift_data(self) -> None:
         """Imports the raw data csv file from RAM and stores the data
         in an arrary 'self.data'"""
@@ -44,6 +45,15 @@ class RamDriftImporter:
             reader = csv.reader(file)
             self.data = [row for row in reader]
 
+    def set_import_file_path(self, filepath):
+        if filepath and os.path.exists(filepath):
+            self.import_file_path = filepath
+            return True
+        else:
+            self.import_file_path = None
+            return False
+
+    # Parsing Data Section
     def get_section_indexes(self) -> None:
         """Gets the indexes of the 'LOAD CASE DEFINITIONS', 'RESULTS', and
         TORSIONAL IRREGULARITY DATA' sections headers."""
@@ -189,7 +199,8 @@ class RamDriftImporter:
         self.parse_drift_data()
         self.parse_torsional_data()
 
-    def get_output(self):
+    # Output Data Section
+    def get_all_output(self):
         return (self.load_cases, self.drift_data, self.torsion_data)
 
     def get_torsional_output(self):
@@ -201,18 +212,12 @@ class RamDriftImporter:
     def get_drift_output(self):
         return self.drift_data
 
-    def set_import_file_path(self, filepath):
-        if filepath and os.path.exists(filepath):
-            self.import_file_path = filepath
-            return True
-        else:
-            self.import_file_path = None
-            return False
-
-    # This function isn't currently all that useful. It prints too
+    # Print Data Section
+    
+    # This function isn't currently all that useful. It prints too much
     # data and the data is too messy to read. Consider a better way to
     # handle this. Also consider if this is necessary.
-    def print_data(self):
+    def print_data(self) -> None:
         print(self.load_cases)
         print(self.drift_data)
         print(self.torsion_data)
@@ -228,6 +233,7 @@ class RamDriftImporter:
         else:
             print('\nTorsion Data Not Available. Import a csv file with drift only cases.\n')
 
+    # Set Functions Section
     def set_story_heights(self) -> None:
         """Requests user input to set the story heights"""
         for cp in self.drift_data:
@@ -253,7 +259,7 @@ class RamDriftImporter:
 
 def main():
     drift_importer = RamDriftImporter(FILE_PATH)
-    # output = drift_importer.get_output()
+    # output = drift_importer.get_all_output()
     output = drift_importer.get_torsional_output()
     drift_importer.print_Ax_values()
     drift_importer.set_story_heights()
