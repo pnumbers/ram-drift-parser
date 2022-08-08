@@ -73,6 +73,7 @@ class RamDriftImporter:
         self.set_stories()
 
     def reimport(self):
+
         self.import_drift_data()
         self.parse_data()
         if not self.check_stories():
@@ -83,6 +84,10 @@ class RamDriftImporter:
     def get_section_indexes(self) -> None:
         """Gets the indexes of the 'LOAD CASE DEFINITIONS', 'RESULTS', and
         TORSIONAL IRREGULARITY DATA' sections headers."""
+
+        self.results_title_index = None
+        self.load_cases_title_index = None
+        self.torsional_title_index = None
         for i, row in enumerate(self.data):
             if row[0] == "LOAD CASE DEFINITIONS:":
                 self.load_cases_title_index = i
@@ -94,6 +99,7 @@ class RamDriftImporter:
                 self.torsional_title_index = i
 
     def get_load_cases(self) -> None:
+        self.load_cases = {}
         for i in range(self.load_cases_title_index + 1, self.results_title_index):
             load_case = self.data[i]
             if "DRIFT" in load_case[1]:
@@ -160,6 +166,7 @@ class RamDriftImporter:
 
     def parse_torsional_data(self):
         """Parses the 'Torsional Irregularity Data from the input file"""
+        self.torsion_data = {}
         axis = None
         for i in range(self.torsional_title_index + 1, len(self.data)):
             row = self.data[i]
