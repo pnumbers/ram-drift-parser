@@ -36,6 +36,7 @@ class RamDriftImporter:
         # Data containers for the parsed data
         self.load_cases = {}
         self.drift_data = {}
+        self.drift_data_stories = []
         self.torsion_data = {}
         self.stories = []
         self.story_heights = {}
@@ -68,11 +69,13 @@ class RamDriftImporter:
         """Imports data from current import_file, parses data,
         and sets stories.
         """
+
         self.import_drift_data()
         self.parse_data()
         self.set_stories()
 
     def reimport(self):
+        """Re-imports data from current import_file"""
 
         self.import_drift_data()
         self.parse_data()
@@ -113,6 +116,7 @@ class RamDriftImporter:
 
     def parse_drift_data(self):
         self.drift_data = {}
+        self.drift_data_stories = []
 
         control_point_number = 0
         control_point_data = None
@@ -145,6 +149,11 @@ class RamDriftImporter:
             if row[0] != "" and row[0].strip() != "Story":
                 story = row[0].strip()
                 control_point_data["drifts"][story] = {}
+                # TODO This could be more efficient by putting one variable that is set to false if  
+                # the current story is the first story in the set ie has it come to its first repeat
+                # TODO should this make a data type that has the story name, its story height and the total height
+                if story not in self.drift_data_stories:
+                    self.drift_data_stories.append(story)
 
             # Checks to see if the row is a drift load case. If so it adds the
             # data to the control point
@@ -330,7 +339,10 @@ def main():
     drift_importer = RamDriftImporter(FILE_PATH)
 
     # Print All Data
-    drift_importer.print_data()
+    # drift_importer.print_data()
+
+    # Print Stories
+    print(drift_importer.drift_data_stories)
 
     # output = drift_importer.get_all_output()
     # output = drift_importer.get_torsional_output()

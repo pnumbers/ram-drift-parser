@@ -21,12 +21,6 @@ class DriftCommandLine:
             if selection == "q" or selection == "quit":
                 self.main_loop_on = False
 
-            # if selection == "1":
-            #     filepath = input("Provide filepath to import: ")
-            #     if not self.drift_importer.set_import_file_path(filepath):
-            #         print("\nFilepath does not exist.")
-            #         continue
-
             match selection:
                 case "1":
                     filepath = input("Provide filepath to import: ")
@@ -75,7 +69,6 @@ class DriftCommandLine:
         """
         print('\n****** Input Info *********')
         print(f'Input file: {self.drift_importer.import_file_path}')
-        # print(info)
         return None
 
     def report_Ax(self):
