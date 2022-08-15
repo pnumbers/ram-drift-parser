@@ -20,6 +20,7 @@ MAPPED_OPTIONS = {"width": 50}
 
 def get_screen_resolution():
     """Returns the screen resolution in [width, heighth]"""
+
     os_name = platform.system()
     if os_name == "Darwin":
         w = NSScreen.mainScreen().frame().size.width
@@ -35,6 +36,9 @@ class GuiManager(tk.Tk):
     def __init__(self) -> None:
         super().__init__()
         self.set_centered_window_size(APP_WIDTH, APP_HEIGHT)
+        self.title("Ram Drift Tool")
+        self.drift_importer = RamDriftImporter()
+        self.initialize_window()
 
     def set_centered_window_size(self, width, height):
         self.monitor_screen_size = get_screen_resolution()
@@ -42,6 +46,9 @@ class GuiManager(tk.Tk):
         x = int((self.monitor_screen_size[0] - width) / 2)
         y = int((self.monitor_screen_size[1] - height) / 2)
         self.geometry(f"{width}x{height}+{x}+{y}")
+
+    def initialize_window(self):
+        pass
 
 
 def main():
