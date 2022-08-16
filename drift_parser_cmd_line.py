@@ -49,6 +49,9 @@ class DriftCommandLine:
                         self.set_story_heights()
 
                 case "4":
+                    self.set_project_values()
+
+                case "5":
                     self.report_Ax()
         return None
 
@@ -81,8 +84,9 @@ class DriftCommandLine:
             1) Set RAM Data File & Import
             2) Re-import Data
             3) Set Story Heights
-            4) Report "Ax" Values
-            5) Report Drift Percentages    (Coming Soon)
+            4) Set Project Values
+            5) Report "Ax" Values
+            6) Report Drift Percentages    (Coming Soon)
         
             q) Quit (quit or q)
             """
@@ -99,7 +103,9 @@ class DriftCommandLine:
         self.drift_importer.set_story_heights(height_dict)
         self.drift_importer.set_total_height()
 
-
+    def set_project_values(self):
+        importance_factor = input("Set Project Importance Factor: ")
+        
 
 def main():
     root = DriftCommandLine()
