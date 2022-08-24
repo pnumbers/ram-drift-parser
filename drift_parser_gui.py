@@ -48,7 +48,41 @@ class GuiManager(tk.Tk):
         self.geometry(f"{width}x{height}+{x}+{y}")
 
     def initialize_window(self):
-        pass
+        # Root Frame for everything else
+        self.menubar = tk.Menu(master=self, background="blue")
+        self.config(menu=self.menubar)
+
+        # Menu bar items
+        self.file_menu = tk.Menu(self.menubar, tearoff=False)
+        self.settings_menu = tk.Menu(self.menubar, tearoff=False)
+
+        self.file_menu.add_command(label="New")
+        self.menubar.add_cascade(label="File", menu=self.file_menu)
+
+        self.settings_menu.add_command(label="New")
+        self.menubar.add_cascade(label="Settings", menu=self.settings_menu)
+
+        # self.menubar.grid(row=0, column=0)
+
+        # Main Frame for the Main Window
+        self.root_frame = tk.LabelFrame(
+            master=self, padx=10, pady=10, borderwidth=0, highlightthickness=0
+        )
+        self.root_frame.grid(row=1, column=0)
+
+        # Import and Refresh Buttons
+        self.buttons_frame = tk.LabelFrame(master=self.root_frame, text="Import Data")
+        self.buttons_frame.config(padx=10, pady=10)
+        self.buttons_frame.pack()
+
+        self.import_button = ttk.Button(
+            master=self.buttons_frame, text="Import RAM File"
+        )
+        self.refresh_button = ttk.Button(
+            master=self.buttons_frame, text="Refresh RAM Data"
+        )
+        self.import_button.pack()
+        self.refresh_button.pack()
 
 
 def main():
