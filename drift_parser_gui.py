@@ -1,3 +1,4 @@
+from doctest import master
 import platform
 
 import tkinter as tk
@@ -62,8 +63,6 @@ class GuiManager(tk.Tk):
         self.settings_menu.add_command(label="New")
         self.menubar.add_cascade(label="Settings", menu=self.settings_menu)
 
-        # self.menubar.grid(row=0, column=0)
-
         # Main Frame for the Main Window
         self.root_frame = tk.LabelFrame(
             master=self, padx=10, pady=10, borderwidth=0, highlightthickness=0
@@ -83,6 +82,17 @@ class GuiManager(tk.Tk):
         )
         self.import_button.pack()
         self.refresh_button.pack()
+
+        # Project Data
+        self.project_data_frame = tk.LabelFrame(
+            master=self.root_frame, text="Project Data"
+        )
+        self.project_data_frame.pack()
+        self.importance_label = ttk.Label(master=self.project_data_frame, text="Ie = ")
+        self.deflect_amp_label = ttk.Label(master=self.project_data_frame, text="Cd = ")
+
+        self.importance_label.pack()
+        self.deflect_amp_label.pack()
 
 
 def main():
