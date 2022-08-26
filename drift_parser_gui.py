@@ -2,7 +2,7 @@ from doctest import master
 import platform
 
 import tkinter as tk
-from tkinter import ANCHOR, ttk
+from tkinter import ANCHOR, StringVar, ttk
 from tkinter import filedialog, messagebox
 
 OS_NAME = platform.system()
@@ -39,6 +39,7 @@ class GuiManager(tk.Tk):
         self.set_centered_window_size(APP_WIDTH, APP_HEIGHT)
         self.title("Ram Drift Tool")
         self.drift_importer = RamDriftImporter()
+        self.initialize_dynamic_variables()
         self.initialize_window()
 
     def set_centered_window_size(self, width, height):
@@ -47,6 +48,10 @@ class GuiManager(tk.Tk):
         x = int((self.monitor_screen_size[0] - width) / 2)
         y = int((self.monitor_screen_size[1] - height) / 2)
         self.geometry(f"{width}x{height}+{x}+{y}")
+
+    def initialize_dynamic_variables(self):
+        """Initializes the dynamic variables for GUI"""
+        self.input_file_var = tk.StringVar(master=self, value="RAM Drift File:")
 
     def initialize_window(self):
         # Root Frame for everything else
@@ -98,11 +103,17 @@ class GuiManager(tk.Tk):
         self.importance_label.pack()
         self.deflect_amp_label.pack()
 
+        self.input_file_label = ttk.Label(
+            master=self.root_frame, textvariable=self.input_file_var, wraplength=500
+        )
+        self.input_file_label.pack()
+
     def import_button_click(self):
         """Imports a RAM drift file from a user selected file."""
         ram_filepath = self.get_input_filepath()
         if self.drift_importer.set_import_file_path(ram_filepath):
             self.drift_importer.first_import()
+            self.input_file_var.set(f"RAM Drift File: \n{ram_filepath}")
 
     def refresh_button_click(self):
         print("Refresh")
@@ -116,13 +127,8 @@ class GuiManager(tk.Tk):
 
     def get_input_filepath(self) -> str:
         """Generates a filedialog for getting the input file."""
-        # root = tk.Tk()
-        # root.withdraw()
-        filepath = filedialog.askopenfilename(title="Load DiRoots Excel File")
-        # if filepath == "":
-        #     return False
-        # else:
-        return filepath
+
+        filepath = filedialog.askopenfilename(title="Load RAM Drift CSV File")
 
         # Taken from dirootsimporter
         # if self.input_filepath == None:
@@ -131,6 +137,7 @@ class GuiManager(tk.Tk):
 
         # if self.input_filepath == "":
         #     raise FileNotFoundError
+        return filepath
 
 
 def main():
