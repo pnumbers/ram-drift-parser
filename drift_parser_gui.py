@@ -99,7 +99,7 @@ class GuiManager(tk.Tk):
         self.deflect_amp_label.pack()
 
     def import_button_click(self):
-        print("Importing")
+        """Imports a RAM drift file from a user selected file."""
         ram_filepath = self.get_input_filepath()
         if self.drift_importer.set_import_file_path(ram_filepath):
             self.drift_importer.first_import()
