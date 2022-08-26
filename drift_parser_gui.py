@@ -101,8 +101,8 @@ class GuiManager(tk.Tk):
     def import_button_click(self):
         print("Importing")
         ram_filepath = self.get_input_filepath()
-        self.drift_importer.set_import_file_path(ram_filepath)
-        self.drift_importer.first_import()
+        if self.drift_importer.set_import_file_path(ram_filepath):
+            self.drift_importer.first_import()
 
     def refresh_button_click(self):
         print("Refresh")
