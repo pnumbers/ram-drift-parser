@@ -75,10 +75,14 @@ class GuiManager(tk.Tk):
         self.buttons_frame.pack()
 
         self.import_button = ttk.Button(
-            master=self.buttons_frame, text="Import RAM File"
+            master=self.buttons_frame,
+            text="Import RAM File",
+            command=self.import_button_click,
         )
         self.refresh_button = ttk.Button(
-            master=self.buttons_frame, text="Refresh RAM Data"
+            master=self.buttons_frame,
+            text="Refresh RAM Data",
+            command=self.refresh_button_click,
         )
         self.import_button.pack()
         self.refresh_button.pack()
@@ -93,6 +97,14 @@ class GuiManager(tk.Tk):
 
         self.importance_label.pack()
         self.deflect_amp_label.pack()
+
+    def import_button_click(self):
+        print("Importing")
+        self.drift_importer.set_import_file_path("raw_data_drift_cases.csv")
+        self.drift_importer.first_import()
+
+    def refresh_button_click(self):
+        print("Refresh")
 
 
 def main():
