@@ -100,11 +100,37 @@ class GuiManager(tk.Tk):
 
     def import_button_click(self):
         print("Importing")
-        self.drift_importer.set_import_file_path("raw_data_drift_cases.csv")
+        ram_filepath = self.get_input_filepath()
+        self.drift_importer.set_import_file_path(ram_filepath)
         self.drift_importer.first_import()
 
     def refresh_button_click(self):
         print("Refresh")
+
+    def file_not_found_message(self) -> None:
+        """Generates a 'File not found.' dialog message"""
+        # root = tk.Tk()
+        # root.withdraw()
+        warning_message = "No file chosen. Import canceled."
+        messagebox.showinfo(title=None, message=warning_message)
+
+    def get_input_filepath(self) -> str:
+        """Generates a filedialog for getting the input file."""
+        # root = tk.Tk()
+        # root.withdraw()
+        filepath = filedialog.askopenfilename(title="Load DiRoots Excel File")
+        # if filepath == "":
+        #     return False
+        # else:
+        return filepath
+
+        # Taken from dirootsimporter
+        # if self.input_filepath == None:
+        #     if not self.get_input_filepath():
+        #         self.file_not_found_message()
+
+        # if self.input_filepath == "":
+        #     raise FileNotFoundError
 
 
 def main():
