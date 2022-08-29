@@ -99,9 +99,13 @@ class GuiManager(tk.Tk):
         self.project_data_frame.pack()
         self.importance_label = ttk.Label(master=self.project_data_frame, text="Ie = ")
         self.deflect_amp_label = ttk.Label(master=self.project_data_frame, text="Cd = ")
+        self.allowable_drift_label = ttk.Label(
+            master=self.project_data_frame, text="Δa= "
+        )
 
         self.importance_label.pack()
         self.deflect_amp_label.pack()
+        self.allowable_drift_label.pack()
 
         self.input_file_label = ttk.Label(
             master=self.root_frame, textvariable=self.input_file_var, wraplength=500
