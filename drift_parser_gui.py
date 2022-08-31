@@ -4,6 +4,7 @@ import platform
 import tkinter as tk
 from tkinter import ANCHOR, StringVar, ttk
 from tkinter import filedialog, messagebox
+from turtle import title
 
 OS_NAME = platform.system()
 if OS_NAME == "Darwin":
@@ -41,6 +42,8 @@ class GuiManager(tk.Tk):
         self.drift_importer = RamDriftImporter()
         self.initialize_dynamic_variables()
         self.initialize_window()
+        self.Ax_ui()
+        self.dev_ui()
 
     def set_centered_window_size(self, width, height):
         self.monitor_screen_size = get_screen_resolution()
@@ -142,6 +145,71 @@ class GuiManager(tk.Tk):
         # if self.input_filepath == "":
         #     raise FileNotFoundError
         return filepath
+
+    # Dev_UI Elements
+    def dev_ui(self):
+        self.dev_frame = tk.LabelFrame(master=self, text="Dev Frame")
+        self.dev_frame.grid(row=1, column=1)
+
+        self.print_stories_btn = ttk.Button(
+            master=self.dev_frame,
+            text="Print Stories",
+            command=self.print_stories_btn_click,
+        )
+        self.print_stories_btn.pack()
+
+        self.set_stories_btn = ttk.Button(
+            master=self.dev_frame,
+            text="Set Story Heights",
+            command=self.create_story_input_window,
+        )
+        self.set_stories_btn.pack()
+
+        self.print_Ax_btn = ttk.Button(
+            master=self.dev_frame,
+            text="Print Ax Values",
+            command=self.set_ax_values,
+        )
+        self.print_Ax_btn.pack()
+
+    def print_stories_btn_click(self):
+        self.drift_importer.print_data()
+
+    def create_story_input_window(self):
+        self.story_window = tk.Toplevel(master=self, height=450, width=600)
+
+    # Set Ax values on main UI
+    def Ax_ui(self):
+        """Initialize the Ax UI elements"""
+        self.ax_frame = tk.LabelFrame(master=self, text="Ax Values")
+        self.ax_frame.grid(row=1, column=2)
+
+        self.x_axis_frame = tk.LabelFrame(master=self.ax_frame, text="X-axis")
+        self.x_axis_frame.grid(row=0, column=0)
+
+        self.y_axis_frame = tk.LabelFrame(master=self.ax_frame, text="Y-axis")
+        self.y_axis_frame.grid(row=0, column=1)
+
+        # Set starting Ax elments until data is loaded
+        # self.
+
+    def set_ax_values(self):
+        """Update the Ax UI elements
+
+        This needs to be run after the first import and upon each new
+        import to ensure the data is current.
+        """
+        data = self.drift_importer.torsion_data
+        for story in self.drift_importer.stories:
+            ax = data["X-Axis"][story]["Ax"]
+            ttk.Label(self.x_axis_frame, text=f"{story}: {ax}").pack()
+
+        for story in self.drift_importer.stories:
+            ax = data["Y-Axis"][story]["Ax"]
+            ttk.Label(self.y_axis_frame, text=f"{story}: {ax}").pack()
+
+        self.drift_importer.print_Ax_values()
+        print(self.drift_importer.torsion_data)
 
 
 def main():
