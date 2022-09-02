@@ -8,7 +8,10 @@ from turtle import title
 
 OS_NAME = platform.system()
 if OS_NAME == "Darwin":
-    from AppKit import NSScreen
+    # TODO: Find new library that will replace AppKit 
+    # or a way to make AppKit work again
+    # from AppKit import NSScreen
+    pass
 elif OS_NAME == "Windows":
     import ctypes
 
@@ -19,14 +22,17 @@ APP_WIDTH = 600
 APP_HEIGHT = 475
 MAPPED_OPTIONS = {"width": 50}
 
-
+# TODO: Delete this code if the thkinter version works on windows
 def get_screen_resolution():
     """Returns the screen resolution in [width, heighth]"""
 
     os_name = platform.system()
     if os_name == "Darwin":
-        w = NSScreen.mainScreen().frame().size.width
-        h = NSScreen.mainScreen().frame().size.height
+        # Fix this so that it correctly takes the screen width and heigth
+        # w = NSScreen.mainScreen().frame().size.width
+        # h = NSScreen.mainScreen().frame().size.height
+        w = 2560 / 2
+        h = 1600 / 2
     else:
         user32 = ctypes.windll.user32
         user32.SetProcessDPIAware()
@@ -46,10 +52,12 @@ class GuiManager(tk.Tk):
         self.dev_ui()
 
     def set_centered_window_size(self, width, height):
-        self.monitor_screen_size = get_screen_resolution()
-
-        x = int((self.monitor_screen_size[0] - width) / 2)
-        y = int((self.monitor_screen_size[1] - height) / 2)
+        # TODO: Test on windows. If it works, delete the commented code
+        # self.monitor_screen_size = get_screen_resolution()
+        # x = int((self.monitor_screen_size[0] - width) / 2)
+        # y = int((self.monitor_screen_size[1] - height) / 2)
+        x = int((self.winfo_screenwidth() - width) / 2)
+        y = int((self.winfo_screenheight() - height) / 2)
         self.geometry(f"{width}x{height}+{x}+{y}")
 
     def initialize_dynamic_variables(self):
