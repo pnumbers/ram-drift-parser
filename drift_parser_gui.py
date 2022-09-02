@@ -8,7 +8,7 @@ from turtle import title
 
 OS_NAME = platform.system()
 if OS_NAME == "Darwin":
-    # TODO: Find new library that will replace AppKit 
+    # TODO: Find new library that will replace AppKit
     # or a way to make AppKit work again
     # from AppKit import NSScreen
     pass
@@ -50,6 +50,9 @@ class GuiManager(tk.Tk):
         self.initialize_window()
         self.Ax_ui()
         self.dev_ui()
+        # Containers
+        self.x_ax = []
+        self.y_ax = []
 
     def set_centered_window_size(self, width, height):
         # TODO: Test on windows. If it works, delete the commented code
@@ -189,6 +192,10 @@ class GuiManager(tk.Tk):
     # Set Ax values on main UI
     def Ax_ui(self):
         """Initialize the Ax UI elements"""
+
+        self.x_ax = []
+        self.y_ax = []
+
         self.ax_frame = tk.LabelFrame(master=self, text="Ax Values")
         self.ax_frame.grid(row=1, column=2)
 
@@ -207,17 +214,42 @@ class GuiManager(tk.Tk):
         This needs to be run after the first import and upon each new
         import to ensure the data is current.
         """
+        # Destroy elements of ax_ui and clear the array so that
+        # the values can be reset
+        # TODO: Change these elements to be var elemnts so that destroying
+        #       them isnt required. This would however need to account for possible
+        #       change in number of floors or floor name changes
+        self.clear_ax_ui()
+
+        # Creates new UI Elements
         data = self.drift_importer.torsion_data
         for story in self.drift_importer.stories:
             ax = data["X-Axis"][story]["Ax"]
-            ttk.Label(self.x_axis_frame, text=f"{story}: {ax}").pack()
+            # ttk.Label(self.x_axis_frame, text=f"{story}: {ax}").pack()
+            self.x_ax.append(ttk.Label(self.x_axis_frame, text=f"{story}: {ax}"))
+
+        for el in self.x_ax:
+            el.pack()
 
         for story in self.drift_importer.stories:
             ax = data["Y-Axis"][story]["Ax"]
-            ttk.Label(self.y_axis_frame, text=f"{story}: {ax}").pack()
+            # ttk.Label(self.y_axis_frame, text=f"{story}: {ax}").pack()
+            self.y_ax.append(ttk.Label(self.y_axis_frame, text=f"{story}: {ax}"))
 
-        self.drift_importer.print_Ax_values()
-        print(self.drift_importer.torsion_data)
+        for el in self.y_ax:
+            el.pack()
+
+        # self.drift_importer.print_Ax_values()
+        # print(self.drift_importer.torsion_data)
+
+    def clear_ax_ui(self):
+        for el in self.x_ax:
+            el.destroy()
+        self.x_ax.clear()
+
+        for el in self.y_ax:
+            el.destroy()
+        self.y_ax.clear()
 
 
 def main():
