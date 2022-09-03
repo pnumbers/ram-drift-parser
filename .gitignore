@@ -131,3 +131,7 @@ dmypy.json
 # Test code or files
 test.*
 example*
+
+# JS code
+*.js
+.gitignore
