@@ -230,6 +230,20 @@ class GuiManager(tk.Tk):
         self.story_list_frame = tk.Frame(master=self.stories_frame)
         self.story_list_frame.pack()
 
+        self.save_heights_btn = ttk.Button(
+            master=self.stories_frame,
+            text="Save Heights",
+            command=self.save_heights_btn_click,
+        )
+        self.save_heights_btn.pack()
+
+        self.change_heights_btn = ttk.Button(
+            master=self.stories_frame,
+            text="Change Heights",
+            command=self.change_heights_btn_click,
+        )
+        self.change_heights_btn.pack()
+
         # self.story_header = tk.Entry(master=self.story_list_frame, text="Story:")
         # self.story_header.insert(0, "Story: ")
         # self.story_header.config(state="disabled")
@@ -253,6 +267,12 @@ class GuiManager(tk.Tk):
             entry = ttk.Entry(master=self.story_list_frame)
             entry.grid(row=i, column=1)
             self.story_height_elements.append(entry)
+
+    def change_heights_btn_click(self):
+        print("change")
+
+    def save_heights_btn_click(self):
+        print("save")
 
     #
     # Ax UI Code ********************************************************
