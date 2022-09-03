@@ -270,6 +270,15 @@ class GuiManager(tk.Tk):
             entry.grid(row=i, column=1)
             self.story_height_elements.append(entry)
 
+        self.total_height_label = tk.Label(master=self.story_list_frame, text="Total: ")
+        total_row = 2 + len(self.story_elements)
+        self.total_height_label.grid(row=total_row, column=0)
+
+        self.total_height_val_label = tk.Label(
+            master=self.story_list_frame, text="0 ft"
+        )
+        self.total_height_val_label.grid(row=total_row, column=1)
+
     def change_heights_btn_click(self):
         """Activates the story heights save button and the story heights entry boxes."""
 
@@ -283,10 +292,17 @@ class GuiManager(tk.Tk):
         self.change_heights_btn.config(state="active")
         self.save_heights_btn.config(state="disabled")
 
-        for el in self.story_height_elements:
-            el.config(state="disabled")
+        story_heights_dict = {}
 
-        print("save")
+        for i, el in enumerate(self.story_height_elements):
+            height = el.get()
+            el.config(state="disabled")
+            story = self.story_elements[i]["text"]
+            story_heights_dict[story] = float(height)
+
+        self.drift_importer.set_story_heights(story_heights_dict)
+        total_height = self.drift_importer.total_height
+        self.total_height_val_label.config(text=f"{total_height} ft")
 
     #
     # Ax UI Code ********************************************************
