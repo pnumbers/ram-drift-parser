@@ -224,25 +224,30 @@ class GuiManager(tk.Tk):
 
     def stories_ui(self) -> None:
         """Initialize the stories UI elements."""
+
+        self.story_elements = []
+        self.story_height_elements = []
+
         self.stories_frame = tk.LabelFrame(master=self, text="Story Heights")
         self.stories_frame.grid(row=2, column=0)
 
         self.story_list_frame = tk.Frame(master=self.stories_frame)
-        self.story_list_frame.pack()
+        self.story_list_frame.grid(row=0, column=0, columnspan=2)
 
         self.save_heights_btn = ttk.Button(
             master=self.stories_frame,
             text="Save Heights",
             command=self.save_heights_btn_click,
         )
-        self.save_heights_btn.pack()
+        self.save_heights_btn.grid(row=1, column=1)
 
         self.change_heights_btn = ttk.Button(
             master=self.stories_frame,
             text="Change Heights",
             command=self.change_heights_btn_click,
+            state="disabled",
         )
-        self.change_heights_btn.pack()
+        self.change_heights_btn.grid(row=1, column=0)
 
         # self.story_header = tk.Entry(master=self.story_list_frame, text="Story:")
         # self.story_header.insert(0, "Story: ")
@@ -252,9 +257,6 @@ class GuiManager(tk.Tk):
 
         self.height_header = tk.Label(master=self.story_list_frame, text="Height (ft):")
         self.height_header.grid(row=0, column=1)
-
-        self.story_elements = []
-        self.story_height_elements = []
 
         self.set_story_rows()
 
@@ -269,9 +271,21 @@ class GuiManager(tk.Tk):
             self.story_height_elements.append(entry)
 
     def change_heights_btn_click(self):
-        print("change")
+        """Activates the story heights save button and the story heights entry boxes."""
+
+        self.change_heights_btn.config(state="disabled")
+        self.save_heights_btn.config(state="active")
+
+        for el in self.story_height_elements:
+            el.config(state="active")
 
     def save_heights_btn_click(self):
+        self.change_heights_btn.config(state="active")
+        self.save_heights_btn.config(state="disabled")
+
+        for el in self.story_height_elements:
+            el.config(state="disabled")
+
         print("save")
 
     #
