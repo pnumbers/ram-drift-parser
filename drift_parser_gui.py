@@ -2,9 +2,8 @@ from doctest import master
 import platform
 
 import tkinter as tk
-from tkinter import ANCHOR, StringVar, ttk
+from tkinter import ttk
 from tkinter import filedialog, messagebox
-from turtle import title
 
 OS_NAME = platform.system()
 if OS_NAME == "Darwin":
@@ -18,8 +17,8 @@ elif OS_NAME == "Windows":
 from drift_parser import RamDriftImporter
 
 # Gui Options
-APP_WIDTH = 600
-APP_HEIGHT = 475
+APP_WIDTH = 1200
+APP_HEIGHT = 700
 MAPPED_OPTIONS = {"width": 50}
 
 # TODO: Delete this code if the thkinter version works on windows
@@ -50,11 +49,15 @@ class GuiManager(tk.Tk):
         self.initialize_window()
         self.Ax_ui()
         self.dev_ui()
+        self.drift_ui()
+        self.stories_ui()
         # Containers
-        self.x_ax = []
-        self.y_ax = []
+        # self.x_ax = []
+        # self.y_ax = []
 
-    def set_centered_window_size(self, width, height):
+    def set_centered_window_size(self, width, height) -> None:
+        """Set the root window in the center of the screen."""
+
         # TODO: Test on windows. If it works, delete the commented code
         # self.monitor_screen_size = get_screen_resolution()
         # x = int((self.monitor_screen_size[0] - width) / 2)
@@ -63,11 +66,16 @@ class GuiManager(tk.Tk):
         y = int((self.winfo_screenheight() - height) / 2)
         self.geometry(f"{width}x{height}+{x}+{y}")
 
-    def initialize_dynamic_variables(self):
+    def initialize_dynamic_variables(self) -> None:
         """Initializes the dynamic variables for GUI"""
+
         self.input_file_var = tk.StringVar(master=self, value="RAM Drift File:")
 
-    def initialize_window(self):
+    #
+    # Main Window Code **************************************************
+    # TODO: Break this up into smaller chunks
+
+    def initialize_window(self) -> None:
         # Root Frame for everything else
         self.menubar = tk.Menu(master=self, background="blue")
         self.config(menu=self.menubar)
@@ -86,7 +94,7 @@ class GuiManager(tk.Tk):
         self.root_frame = tk.LabelFrame(
             master=self, padx=10, pady=10, borderwidth=0, highlightthickness=0
         )
-        self.root_frame.grid(row=1, column=0)
+        self.root_frame.grid(row=0, column=0)
 
         # Import and Refresh Buttons
         self.buttons_frame = tk.LabelFrame(master=self.root_frame, text="Import Data")
@@ -126,14 +134,17 @@ class GuiManager(tk.Tk):
         )
         self.input_file_label.pack()
 
-    def import_button_click(self):
+    def import_button_click(self) -> None:
         """Imports a RAM drift file from a user selected file."""
+
         ram_filepath = self.get_input_filepath()
         if self.drift_importer.set_import_file_path(ram_filepath):
             self.drift_importer.first_import()
             self.input_file_var.set(f"RAM Drift File: \n{ram_filepath}")
 
-    def refresh_button_click(self):
+        self.set_story_rows()
+
+    def refresh_button_click(self) -> None:
         print("Refresh")
 
     def file_not_found_message(self) -> None:
@@ -157,10 +168,16 @@ class GuiManager(tk.Tk):
         #     raise FileNotFoundError
         return filepath
 
-    # Dev_UI Elements
+    #
+    # Dev_UI Elements Code **********************************************
     def dev_ui(self):
+        """Initializes a frame for development ui elements.
+
+        This frame is used to place elements that are for development purposes or to place
+        elements that do not have a set place in the production UI yet."""
+
         self.dev_frame = tk.LabelFrame(master=self, text="Dev Frame")
-        self.dev_frame.grid(row=1, column=1)
+        self.dev_frame.grid(row=0, column=1)
 
         self.print_stories_btn = ttk.Button(
             master=self.dev_frame,
@@ -185,19 +202,70 @@ class GuiManager(tk.Tk):
 
     def print_stories_btn_click(self):
         self.drift_importer.print_data()
+        self.set_story_rows()
 
     def create_story_input_window(self):
         self.story_window = tk.Toplevel(master=self, height=450, width=600)
 
+    #
+    # Drift UI Code *****************************************************
+
+    def drift_ui(self) -> None:
+        """Initialize the drift UI elements."""
+
+        self.drift_frame = tk.LabelFrame(master=self, text="Drifts")
+        self.drift_frame.grid(row=1, column=1)
+
+        self.blank = tk.Label(master=self.drift_frame, text="Drift stuff")
+        self.blank.pack()
+
+    #
+    # Stories UI Code ***************************************************
+
+    def stories_ui(self) -> None:
+        """Initialize the stories UI elements."""
+        self.stories_frame = tk.LabelFrame(master=self, text="Story Heights")
+        self.stories_frame.grid(row=2, column=0)
+
+        self.story_list_frame = tk.Frame(master=self.stories_frame)
+        self.story_list_frame.pack()
+
+        # self.story_header = tk.Entry(master=self.story_list_frame, text="Story:")
+        # self.story_header.insert(0, "Story: ")
+        # self.story_header.config(state="disabled")
+        self.story_header = tk.Label(master=self.story_list_frame, text="Story:")
+        self.story_header.grid(row=0, column=0)
+
+        self.height_header = tk.Label(master=self.story_list_frame, text="Height (ft):")
+        self.height_header.grid(row=0, column=1)
+
+        self.story_elements = []
+        self.story_height_elements = []
+
+        self.set_story_rows()
+
+    def set_story_rows(self) -> None:
+        for i, story in enumerate(self.drift_importer.stories, 1):
+            el = tk.Label(master=self.story_list_frame, text=f"{story}: ")
+            el.grid(row=i, column=0)
+            self.story_elements.append(el)
+
+            entry = ttk.Entry(master=self.story_list_frame)
+            entry.grid(row=i, column=1)
+            self.story_height_elements.append(entry)
+
+    #
+    # Ax UI Code ********************************************************
+
     # Set Ax values on main UI
-    def Ax_ui(self):
-        """Initialize the Ax UI elements"""
+    def Ax_ui(self) -> None:
+        """Initialize the Ax UI elements."""
 
         self.x_ax = []
         self.y_ax = []
 
         self.ax_frame = tk.LabelFrame(master=self, text="Ax Values")
-        self.ax_frame.grid(row=1, column=2)
+        self.ax_frame.grid(row=0, column=2, pady=20)
 
         self.x_axis_frame = tk.LabelFrame(master=self.ax_frame, text="X-axis")
         self.x_axis_frame.grid(row=0, column=0)
