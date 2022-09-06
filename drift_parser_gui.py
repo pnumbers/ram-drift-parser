@@ -47,10 +47,6 @@ class GuiManager(tk.Tk):
         self.drift_importer = RamDriftImporter()
         self.initialize_dynamic_variables()
         self.initialize_window()
-        self.Ax_ui()
-        self.dev_ui()
-        self.drift_ui()
-        self.stories_ui()
         # Containers
         # self.x_ax = []
         # self.y_ax = []
@@ -95,6 +91,12 @@ class GuiManager(tk.Tk):
             master=self, padx=10, pady=10, borderwidth=0, highlightthickness=0
         )
         self.root_frame.grid(row=0, column=0)
+
+        # Initialize root window components
+        self.Ax_ui()
+        self.dev_ui()
+        self.drift_ui()
+        self.stories_ui()
 
         # Import and Refresh Buttons
         self.buttons_frame = tk.LabelFrame(master=self.root_frame, text="Import Data")
