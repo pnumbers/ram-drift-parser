@@ -266,7 +266,7 @@ class GuiManager(tk.Tk):
             el.grid(row=i, column=0)
             self.story_elements.append(el)
 
-            entry = ttk.Entry(master=self.story_list_frame)
+            entry = ttk.Entry(master=self.story_list_frame, width=12)
             entry.grid(row=i, column=1)
             self.story_height_elements.append(entry)
 
