@@ -19,7 +19,7 @@ FILE_PATH = FILE
 #  a) A file has already been imported
 #  b) The file location changes
 #  c) The number of stories changes
-#  d) The control points change 
+#  d) The control points change
 class RamDriftImporter:
     """A class that imports and parses drift output from RAM Structural
     System's Frame module. This class requires control points to have
@@ -149,7 +149,7 @@ class RamDriftImporter:
             if row[0] != "" and row[0].strip() != "Story":
                 story = row[0].strip()
                 control_point_data["drifts"][story] = {}
-                # TODO This could be more efficient by putting one variable that is set to false if  
+                # TODO This could be more efficient by putting one variable that is set to false if
                 # the current story is the first story in the set ie has it come to its first repeat
                 # TODO should this make a data type that has the story name, its story height and the total height
                 if story not in self.drift_data_stories:
@@ -250,7 +250,7 @@ class RamDriftImporter:
 
     def set_stories(self) -> List[str]:
         """Set the stories by parsing the drift data.
-        
+
         self.stories = self.parse_stories()
         """
 
@@ -259,7 +259,7 @@ class RamDriftImporter:
     def check_stories(self) -> bool:
         """Checks if the current stories list is equal to the stories
         in the current drift data.
-        
+
         Returns True if the stories match. False otherwise
         """
 
@@ -289,7 +289,7 @@ class RamDriftImporter:
         return self.stories
 
     # Print Data Section
-    
+
     # This function isn't currently all that useful. It prints too much
     # data and the data is too messy to read. Consider a better way to
     # handle this. Also consider if this is necessary.
@@ -310,13 +310,15 @@ class RamDriftImporter:
                 for story in self.torsion_data[axis]:
                     print(f"{story}: Ax=", self.torsion_data[axis][story]["Ax"])
         else:
-            print('\nTorsion Data Not Available. Import a csv file with drift only cases.\n')
+            print(
+                "\nTorsion Data Not Available. Import a csv file with drift only cases.\n"
+            )
 
     # Set Functions Section
 
     def set_story_heights(self, height_dict) -> None:
         """Sets the story heights"""
-        
+
         self.story_heights = height_dict
         self.set_total_height()
 
@@ -328,12 +330,13 @@ class RamDriftImporter:
     def set_drift_limits(self):
         self.drift_limits = {}
         wind_total_drift_limit = self.total_height * 12 / 500
-        self.drift_limits['wind_total'] = wind_total_drift_limit
+        self.drift_limits["wind_total"] = wind_total_drift_limit
         for story in self.story_heights:
             print(f"{story}: Drift Limit")
 
 
 # def wind_
+
 
 def main():
     drift_importer = RamDriftImporter(FILE_PATH)
