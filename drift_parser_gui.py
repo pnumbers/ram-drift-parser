@@ -98,31 +98,46 @@ class GuiManager(tk.Tk):
         self.dev_ui()
         self.drift_ui()
         self.stories_ui()
+        self.project_data_ui()
 
-        # Import and Refresh Buttons
-
-        # Project Data
-        self.project_data_frame = tk.LabelFrame(
-            master=self.root_frame, text="Project Data"
-        )
-        self.project_data_frame.pack()
-        self.importance_label = ttk.Label(master=self.project_data_frame, text="Ie = ")
-        self.deflect_amp_label = ttk.Label(master=self.project_data_frame, text="Cd = ")
-        self.allowable_drift_label = ttk.Label(
-            master=self.project_data_frame, text="Δa= "
-        )
-
-        self.importance_label.pack()
-        self.deflect_amp_label.pack()
-        self.allowable_drift_label.pack()
-
+        # TODO: Find a place to put this file label
+        # TODO: Truncate / make this file path shorter when displayed
         self.input_file_label = ttk.Label(
             master=self.root_frame, textvariable=self.input_file_var, wraplength=500
         )
         self.input_file_label.pack()
 
+    def project_data_ui(self):
+        """Initialize project data frame."""
+
+        self.project_data_frame = tk.LabelFrame(
+            master=self.root_frame, text="Seismic Project Data", padx=10, pady=10
+        )
+        self.project_data_frame.pack()
+        self.importance_label = ttk.Label(
+            master=self.project_data_frame, text="Importance Factor: Ie = "
+        )
+        self.deflect_amp_label = ttk.Label(
+            master=self.project_data_frame, text="Deflection Amplification: Cd = "
+        )
+        self.allowable_drift_label = ttk.Label(
+            master=self.project_data_frame, text="Allowable Deflection: Δa = "
+        )
+
+        self.importance_entry = ttk.Entry(master=self.project_data_frame, width=10)
+        self.deflect_amp_entry = ttk.Entry(master=self.project_data_frame, width=10)
+        self.allowable_drift_entry = ttk.Entry(master=self.project_data_frame, width=10)
+
+        self.importance_label.grid(row=0, column=0, sticky="E")
+        self.deflect_amp_label.grid(row=1, column=0, sticky="E")
+        self.allowable_drift_label.grid(row=2, column=0, sticky="E")
+
+        self.importance_entry.grid(row=0, column=1)
+        self.deflect_amp_entry.grid(row=1, column=1)
+        self.allowable_drift_entry.grid(row=2, column=1)
+
     def import_ui(self) -> None:
-        """Initilize import buttons frame."""
+        """Initialize import buttons frame."""
 
         self.buttons_frame = tk.LabelFrame(master=self.root_frame, text="Import Data")
         self.buttons_frame.config(padx=10, pady=10)
