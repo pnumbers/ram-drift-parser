@@ -93,28 +93,13 @@ class GuiManager(tk.Tk):
         self.root_frame.grid(row=0, column=0)
 
         # Initialize root window components
+        self.import_ui()
         self.Ax_ui()
         self.dev_ui()
         self.drift_ui()
         self.stories_ui()
 
         # Import and Refresh Buttons
-        self.buttons_frame = tk.LabelFrame(master=self.root_frame, text="Import Data")
-        self.buttons_frame.config(padx=10, pady=10)
-        self.buttons_frame.pack()
-
-        self.import_button = ttk.Button(
-            master=self.buttons_frame,
-            text="Import RAM File",
-            command=self.import_button_click,
-        )
-        self.refresh_button = ttk.Button(
-            master=self.buttons_frame,
-            text="Refresh RAM Data",
-            command=self.refresh_button_click,
-        )
-        self.import_button.pack()
-        self.refresh_button.pack()
 
         # Project Data
         self.project_data_frame = tk.LabelFrame(
@@ -135,6 +120,26 @@ class GuiManager(tk.Tk):
             master=self.root_frame, textvariable=self.input_file_var, wraplength=500
         )
         self.input_file_label.pack()
+
+    def import_ui(self) -> None:
+        """Initilize import buttons frame."""
+
+        self.buttons_frame = tk.LabelFrame(master=self.root_frame, text="Import Data")
+        self.buttons_frame.config(padx=10, pady=10)
+        self.buttons_frame.pack()
+
+        self.import_button = ttk.Button(
+            master=self.buttons_frame,
+            text="Import RAM File",
+            command=self.import_button_click,
+        )
+        self.refresh_button = ttk.Button(
+            master=self.buttons_frame,
+            text="Refresh RAM Data",
+            command=self.refresh_button_click,
+        )
+        self.import_button.pack()
+        self.refresh_button.pack()
 
     def import_button_click(self) -> None:
         """Imports a RAM drift file from a user selected file."""
