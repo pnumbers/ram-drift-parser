@@ -228,7 +228,9 @@ class GuiManager(tk.Tk):
         self.story_elements = []
         self.story_height_elements = []
 
-        self.stories_frame = tk.LabelFrame(master=self, text="Story Heights")
+        self.stories_frame = tk.LabelFrame(
+            master=self, text="Story Heights", padx=10, pady=10
+        )
         self.stories_frame.grid(row=2, column=0)
 
         self.story_list_frame = tk.Frame(master=self.stories_frame)
