@@ -155,6 +155,25 @@ class GuiManager(tk.Tk):
         self.drift_importer.drift_amp_factor = deflect_amp
         self.drift_importer.allowable_drift_limit = allowable_drift
 
+        self.importance_entry.config(state="disabled")
+        self.deflect_amp_entry.config(state="disabled")
+        self.allowable_drift_entry.config(state="disabled")
+
+        self.project_data_save_btn.config(
+            text="Change", command=self.project_data_change_click
+        )
+
+    def project_data_change_click(self) -> None:
+        """Active the project data entries boxes."""
+
+        self.importance_entry.config(state="active")
+        self.deflect_amp_entry.config(state="active")
+        self.allowable_drift_entry.config(state="active")
+
+        self.project_data_save_btn.config(
+            text="Save", command=self.project_data_save_click
+        )
+
     #
     # Import_UI Elements Code **********************************************
     def import_ui(self) -> None:
