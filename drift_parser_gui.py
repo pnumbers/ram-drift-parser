@@ -206,6 +206,14 @@ class GuiManager(tk.Tk):
 
         self.set_story_rows()
 
+        # Display Ax values on import
+        # TODO: Wipe Ax components and display "No drift data" or something
+        #       if non-drift case file is loaded
+        if self.drift_importer.torsion_data == None:
+            print("No torsion data")
+        else:
+            self.set_ax_values()
+
     def refresh_button_click(self) -> None:
         print("Refresh")
 
