@@ -146,7 +146,12 @@ class GuiManager(tk.Tk):
         self.project_data_save_btn.grid(row=3, column=1, pady=3)
 
     def project_data_save_click(self):
-        print("Save")
+        importance_factor = float(self.importance_entry.get())
+        deflect_amp = float(self.deflect_amp_entry.get())
+        allowable_drift = float(self.allowable_drift_entry.get())
+        self.drift_importer.importance_factor = importance_factor
+        self.drift_importer.drift_amp_factor = deflect_amp
+        self.drift_importer.allowable_drift_limit = allowable_drift
 
     #
     # Import_UI Elements Code **********************************************

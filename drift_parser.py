@@ -41,6 +41,10 @@ class RamDriftImporter:
         self.stories = []
         self.story_heights = {}
         self.total_height = None
+        # Seismic Data
+        self.importance_factor = None
+        self.drift_amp_factor = None
+        self.allowable_drift_limit = None
         # Automatically run the parser if an input file is given
         if self.import_file_path and os.path.exists(self.import_file_path):
             self.first_import()
