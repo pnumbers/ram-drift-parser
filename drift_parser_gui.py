@@ -107,6 +107,8 @@ class GuiManager(tk.Tk):
         )
         self.input_file_label.pack()
 
+    #
+    # Project_data_UI Elements code *******************************************
     def project_data_ui(self):
         """Initialize project data frame."""
 
@@ -132,10 +134,22 @@ class GuiManager(tk.Tk):
         self.deflect_amp_label.grid(row=1, column=0, sticky="E")
         self.allowable_drift_label.grid(row=2, column=0, sticky="E")
 
-        self.importance_entry.grid(row=0, column=1)
-        self.deflect_amp_entry.grid(row=1, column=1)
-        self.allowable_drift_entry.grid(row=2, column=1)
+        self.importance_entry.grid(row=0, column=1, pady=2)
+        self.deflect_amp_entry.grid(row=1, column=1, pady=2)
+        self.allowable_drift_entry.grid(row=2, column=1, pady=2)
 
+        self.project_data_save_btn = ttk.Button(
+            master=self.project_data_frame,
+            text="Save",
+            command=self.project_data_save_click,
+        )
+        self.project_data_save_btn.grid(row=3, column=1, pady=3)
+
+    def project_data_save_click(self):
+        print("Save")
+
+    #
+    # Import_UI Elements Code **********************************************
     def import_ui(self) -> None:
         """Initialize import buttons frame."""
 
