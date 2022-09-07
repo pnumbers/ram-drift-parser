@@ -146,6 +146,8 @@ class GuiManager(tk.Tk):
         self.project_data_save_btn.grid(row=3, column=1, pady=3)
 
     def project_data_save_click(self):
+        """Push the project data entries to the drift parser."""
+
         importance_factor = float(self.importance_entry.get())
         deflect_amp = float(self.deflect_amp_entry.get())
         allowable_drift = float(self.allowable_drift_entry.get())
