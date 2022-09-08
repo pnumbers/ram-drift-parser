@@ -167,9 +167,14 @@ class RamDriftImporter:
                 story_drift = [float(x) for x in row[4:6]]
                 drift_ratio = [float(x) for x in row[6:]]
 
+                max_displacement = max([abs(el) for el in displacement])
+                max_story_drift = max([abs(el) for el in story_drift])
+
                 data = {}
                 data["displacement"] = displacement
+                data["max_displacement"] = max_displacement
                 data["story_drift"] = story_drift
+                data["max_story_drift"] = max_story_drift
                 data["drift_ratio"] = drift_ratio
 
                 control_point_data["drifts"][story][load_case] = data
