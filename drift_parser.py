@@ -336,6 +336,17 @@ class RamDriftImporter:
         for story in self.story_heights:
             self.total_height += self.story_heights[story]
 
+    def get_overall_heights(self):
+        overall_heights = {}
+        height = 0
+        # print(self.story_heights)
+        for i in range(len(self.stories) - 1, -1, -1):
+            story = self.stories[i]
+            height += self.story_heights[story]
+            overall_heights[story] = height
+
+        return overall_heights
+
     def set_drift_limits(self):
         self.drift_limits = {}
         wind_total_drift_limit = self.total_height * 12 / 500

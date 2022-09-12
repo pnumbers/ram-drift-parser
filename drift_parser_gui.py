@@ -271,8 +271,10 @@ class GuiManager(tk.Tk):
         self.print_Ax_btn.pack()
 
     def print_stories_btn_click(self):
-        self.drift_importer.print_data()
-        self.set_story_rows()
+        # self.drift_importer.print_data()
+        # self.set_story_rows()
+        print(self.drift_importer.story_heights)
+        print(self.drift_importer.get_overall_heights())
 
     def create_story_input_window(self):
         self.story_window = tk.Toplevel(master=self, height=450, width=600)
@@ -333,6 +335,7 @@ class GuiManager(tk.Tk):
         self.set_story_rows()
 
     def set_story_rows(self) -> None:
+        # TODO: Loop through and destroy elements before they are made
         for i, story in enumerate(self.drift_importer.stories, 1):
             el = tk.Label(master=self.story_list_frame, text=f"{story}: ")
             el.grid(row=i, column=0)
@@ -369,7 +372,7 @@ class GuiManager(tk.Tk):
         for i, el in enumerate(self.story_height_elements):
             height = el.get()
             el.config(state="disabled")
-            story = self.story_elements[i]["text"]
+            story = self.story_elements[i]["text"][:-2]
             story_heights_dict[story] = float(height)
 
         self.drift_importer.set_story_heights(story_heights_dict)
