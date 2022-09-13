@@ -362,6 +362,17 @@ class RamDriftImporter:
 
             # print(f"{story}: {wind_limit} in")
 
+    def drift_ultilization(self):
+        for cp in self.drift_data:
+            for story, load_case_dict in self.drift_data[cp]["drifts"].items():
+                # print(story, load_case)
+                for load_case, data_dict in load_case_dict.items():
+                    if load_case[0] == "W":
+                        overall_wind_limit = self.drift_limits[story]["wind"]
+                        displacement = data_dict["max_displacement"]
+                        util = displacement / overall_wind_limit
+                        print(cp, story, load_case, util)
+
 
 # def wind_
 
@@ -409,7 +420,9 @@ Data Schema for control points
             story: {
                 load_case: {
                     displacement: [],
+                    max_displacement: val,
                     story_drift: [],
+                    max_story_drift: val,
                     drift_ratio: []
                     }
                 }

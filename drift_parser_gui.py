@@ -273,9 +273,9 @@ class GuiManager(tk.Tk):
     def print_stories_btn_click(self):
         # self.drift_importer.print_data()
         # self.set_story_rows()
-        print(self.drift_importer.story_heights)
         print(self.drift_importer.get_overall_heights())
         self.drift_importer.set_drift_limits()
+        self.drift_importer.drift_ultilization()
 
     def create_story_input_window(self):
         self.story_window = tk.Toplevel(master=self, height=450, width=600)
