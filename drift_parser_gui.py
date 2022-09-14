@@ -458,6 +458,8 @@ class GuiManager(tk.Tk):
 
 
 def dev_run(app):
+    """Run the development mode functions"""
+
     app.import_process(INPUT_FILE_DEV)
 
 
