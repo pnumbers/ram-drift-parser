@@ -320,12 +320,25 @@ class GuiManager(tk.Tk):
         self.story_list_frame = tk.Frame(master=self.stories_frame)
         self.story_list_frame.grid(row=0, column=0, columnspan=2)
 
+        # self.total_height_frame = tk.Frame(master=self.stories_frame)
+        # self.total_height_frame.grid(row=1, column=0, columnspan=2)
+
+        # self.total_height_label = tk.Label(
+        #     master=self.total_height_frame, text="Total: "
+        # )
+        # self.total_height_label.grid(row=0, column=0)
+
+        # self.total_height_val_label = tk.Label(
+        #     master=self.total_height_frame, text="0 ft"
+        # )
+        # self.total_height_val_label.grid(row=0, column=1)
+
         self.save_heights_btn = ttk.Button(
             master=self.stories_frame,
             text="Save Heights",
             command=self.save_heights_btn_click,
         )
-        self.save_heights_btn.grid(row=1, column=1)
+        self.save_heights_btn.grid(row=2, column=1)
 
         self.change_heights_btn = ttk.Button(
             master=self.stories_frame,
@@ -333,7 +346,7 @@ class GuiManager(tk.Tk):
             command=self.change_heights_btn_click,
             state="disabled",
         )
-        self.change_heights_btn.grid(row=1, column=0)
+        self.change_heights_btn.grid(row=2, column=0)
 
         # self.story_header = tk.Entry(master=self.story_list_frame, text="Story:")
         # self.story_header.insert(0, "Story: ")
