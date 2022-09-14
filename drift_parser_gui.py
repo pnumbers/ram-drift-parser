@@ -200,6 +200,12 @@ class GuiManager(tk.Tk):
         """Imports a RAM drift file from a user selected file."""
 
         ram_filepath = self.get_input_filepath()
+        self.import_process(ram_filepath)
+
+    def import_process(self, import_file):
+        """Run the processes associated with importing a RAM drift file"""
+
+        ram_filepath = import_file
         if self.drift_importer.set_import_file_path(ram_filepath):
             self.drift_importer.first_import()
             self.input_file_var.set(f"RAM Drift File: \n{ram_filepath}")
@@ -444,6 +450,11 @@ class GuiManager(tk.Tk):
         for el in self.y_ax:
             el.destroy()
         self.y_ax.clear()
+
+
+def dev_run(app):
+    # app.
+    pass
 
 
 def main():
