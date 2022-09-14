@@ -347,6 +347,8 @@ class GuiManager(tk.Tk):
         self.set_story_rows()
 
     def set_story_rows(self) -> None:
+        """Create labels and entry boxes for each story."""
+
         # TODO: Loop through and destroy elements before they are made
         for i, story in enumerate(self.drift_importer.stories, 1):
             el = tk.Label(master=self.story_list_frame, text=f"{story}: ")
