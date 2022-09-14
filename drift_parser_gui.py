@@ -388,6 +388,9 @@ class GuiManager(tk.Tk):
         )
         self.total_height_val_label.grid(row=total_row, column=1)
 
+        self.story_elements.append(self.total_height_label)
+        self.story_height_elements.append(self.total_height_val_label)
+
     def change_heights_btn_click(self):
         """Activates the story heights save button and the story heights entry boxes."""
 
