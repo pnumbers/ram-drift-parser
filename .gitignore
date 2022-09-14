@@ -135,3 +135,5 @@ example*
 # JS code
 *.js
 .gitignore
+
+example*
