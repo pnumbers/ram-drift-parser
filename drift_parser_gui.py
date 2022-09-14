@@ -21,6 +21,11 @@ APP_WIDTH = 1200
 APP_HEIGHT = 700
 MAPPED_OPTIONS = {"width": 50}
 
+# DEV
+DEV_MODE = True
+if DEV_MODE:
+    INPUT_FILE_DEV = "raw_data_drift_cases.csv"
+
 # TODO: Delete this code if the thkinter version works on windows
 def get_screen_resolution():
     """Returns the screen resolution in [width, heighth]"""
@@ -453,13 +458,17 @@ class GuiManager(tk.Tk):
 
 
 def dev_run(app):
-    # app.
-    pass
+    app.import_process(INPUT_FILE_DEV)
 
 
 def main():
     global app
     app = GuiManager()
+
+    # Runs the development function
+    if DEV_MODE:
+        dev_run(app)
+
     app.protocol("WM_DELETE_WINDOW", _quit)
     app.mainloop()
 
