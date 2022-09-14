@@ -303,6 +303,12 @@ class GuiManager(tk.Tk):
         self.blank = tk.Label(master=self.drift_frame, text="Drift stuff")
         self.blank.pack()
 
+        # Add drift loop
+        # self.
+
+        # for cp in self.drift_importer.drift_data:
+        #     self
+
     #
     # Stories UI Code ***************************************************
 
