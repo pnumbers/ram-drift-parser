@@ -3,7 +3,8 @@ from doctest import master
 import platform
 
 import tkinter as tk
-from tkinter import ttk
+from tkinter import RIGHT, Y, ttk
+from tkinter import *
 from tkinter import filedialog, messagebox
 
 OS_NAME = platform.system()
@@ -299,6 +300,7 @@ class GuiManager(tk.Tk):
         """Initialize the drift UI elements."""
 
         self.drift_frame = tk.LabelFrame(master=self, text="Drifts")
+        self.drift_frame.config(width=400, height=400, padx=10, pady=10)
         self.drift_frame.grid(row=1, column=1)
 
         self.blank = tk.Label(master=self.drift_frame, text="Drift stuff")
@@ -306,16 +308,44 @@ class GuiManager(tk.Tk):
 
         # Add drift loop
         self.drift_elements = []
-
         self.drift_btn = ttk.Button(
             master=self.drift_frame, text="Paint", command=self.paint_drift
-        ).pack()
+        )
+        self.drift_btn.pack()
+
+        self.drift_frame_inner = tk.LabelFrame(
+            master=self.drift_frame, text="Control Points"
+        )
+        self.drift_frame_inner.pack()
+
+        self.drift_scroll_bar = tk.Scrollbar(
+            master=self.drift_frame_inner, orient="vertical"
+        )
+        self.drift_scroll_bar.pack(side=RIGHT, fill=Y)
+
+        self.drift_values_frame = tk.Frame(
+            master=self.drift_frame_inner, yscrollcommand=self.drift_scroll_bar.set
+        )
+        self.drift_values_frame.pack()
+        # self.lwdwb = tk.Label(master=self.drift_values_frame, text="aweae").pack()
+        # ttk.Label(master=self.w, text="aweae").pack()
 
     def paint_drift(self):
-        for cp in self.drift_importer.drift_data:
-            label = ttk.Label(master=self.drift_frame, text=f"{cp}")
-            label.pack()
-            self.drift_elements.append(label)
+        n_row = 0
+        drift_data = self.drift_importer.drift_data
+        for i, cp in enumerate(drift_data):
+            stories = self.drift_importer.drift_data[cp]["drifts"]
+
+            for j, story in enumerate(stories):
+
+                label = tk.Label(master=self.drift_values_frame, text=f"{cp}")
+                label.grid(row=n_row, column=0)
+                self.drift_elements.append(label)
+
+                story_label = tk.Label(master=self.drift_values_frame, text=f"{story}")
+                story_label.grid(row=n_row, column=1)
+                self.drift_elements.append(story_label)
+                n_row += 1
 
     #
     # Stories UI Code ***************************************************
