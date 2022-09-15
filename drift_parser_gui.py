@@ -1,3 +1,4 @@
+from cgi import test
 from doctest import master
 import platform
 
@@ -304,10 +305,17 @@ class GuiManager(tk.Tk):
         self.blank.pack()
 
         # Add drift loop
-        # self.
+        self.drift_elements = []
 
-        # for cp in self.drift_importer.drift_data:
-        #     self
+        self.drift_btn = ttk.Button(
+            master=self.drift_frame, text="Paint", command=self.paint_drift
+        ).pack()
+
+    def paint_drift(self):
+        for cp in self.drift_importer.drift_data:
+            label = ttk.Label(master=self.drift_frame, text=f"{cp}")
+            label.pack()
+            self.drift_elements.append(label)
 
     #
     # Stories UI Code ***************************************************
