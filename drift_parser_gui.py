@@ -1,6 +1,7 @@
 from cgi import test
 from doctest import master
 import platform
+from textwrap import fill
 
 import tkinter as tk
 from tkinter import RIGHT, Y, ttk
@@ -317,21 +318,34 @@ class GuiManager(tk.Tk):
             master=self.drift_frame, text="Control Points"
         )
         self.drift_frame_inner.pack()
+        # TODO: DELETE
+        self.drift_frame_inner.config(bg="green")
+        self.drift_frame_inner.config(width=300, height=300)
+        self.drift_frame_inner.pack_propagate(False)
+
+        self.drift_canvas = tk.Canvas(master=self.drift_frame_inner)
+        self.drift_canvas.pack(side=LEFT)
+        self.drift_canvas.config(bg="pink")
 
         self.drift_scroll_bar = tk.Scrollbar(
-            master=self.drift_frame_inner, orient="vertical"
+            master=self.drift_frame_inner,
+            orient="vertical",
         )
         self.drift_scroll_bar.pack(side=RIGHT, fill=Y)
 
         self.drift_values_frame = tk.Frame(
-            master=self.drift_frame_inner, yscrollcommand=self.drift_scroll_bar.set
+            master=self.drift_canvas,
         )
         self.drift_values_frame.pack()
-        # self.lwdwb = tk.Label(master=self.drift_values_frame, text="aweae").pack()
-        # ttk.Label(master=self.w, text="aweae").pack()
+
+        self.drift_title = tk.Label(master=self.drift_values_frame, text="Drift")
+        self.drift_title.grid(row=0, column=0, sticky="N")
+
+        self.drift_canvas.config(yscrollcommand=self.drift_scroll_bar.set)
+        self.drift_scroll_bar.config(command=self.drift_canvas.yview)
 
     def paint_drift(self):
-        n_row = 0
+        n_row = 1
         drift_data = self.drift_importer.drift_data
         for i, cp in enumerate(drift_data):
             stories = self.drift_importer.drift_data[cp]["drifts"]
@@ -346,6 +360,8 @@ class GuiManager(tk.Tk):
                 story_label.grid(row=n_row, column=1)
                 self.drift_elements.append(story_label)
                 n_row += 1
+        print(self.drift_canvas.bbox("all"))
+        self.drift_canvas.config(scrollregion=self.drift_canvas.bbox("all"))
 
     #
     # Stories UI Code ***************************************************
