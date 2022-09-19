@@ -302,7 +302,7 @@ class GuiManager(tk.Tk):
 
         self.drift_frame = tk.LabelFrame(master=self, text="Drifts")
         self.drift_frame.config(width=400, height=400, padx=10, pady=10)
-        self.drift_frame.grid(row=1, column=1)
+        self.drift_frame.grid(row=2, column=1)
 
         self.blank = tk.Label(master=self.drift_frame, text="Drift stuff")
         self.blank.pack()
