@@ -318,14 +318,19 @@ class GuiManager(tk.Tk):
             master=self.drift_frame, text="Control Points"
         )
         self.drift_frame_inner.pack()
-        # TODO: DELETE
+        # TODO: DELETE Start
         self.drift_frame_inner.config(bg="green")
+        # DELETE End
         self.drift_frame_inner.config(width=300, height=300)
         self.drift_frame_inner.pack_propagate(False)
 
         self.drift_canvas = tk.Canvas(master=self.drift_frame_inner)
         self.drift_canvas.pack(side=LEFT)
         self.drift_canvas.config(bg="pink")
+
+        # self.drift_frame_inner.bind("<Configure>", self.reset_scrollregion)
+        self.drift_frame_inner.bind("<Configure>", print("HI"))
+
 
         self.drift_scroll_bar = tk.Scrollbar(
             master=self.drift_frame_inner,
@@ -360,9 +365,11 @@ class GuiManager(tk.Tk):
                 story_label.grid(row=n_row, column=1)
                 self.drift_elements.append(story_label)
                 n_row += 1
-        print(self.drift_canvas.bbox("all"))
-        self.drift_canvas.config(scrollregion=self.drift_canvas.bbox("all"))
-
+        # print(self.drift_canvas.bbox("all"))
+        # self.drift_canvas.config(scrollregion=self.drift_canvas.bbox("all"))
+    
+    def reset_scrollregion(self, event):
+        self.drift_canvas.configure(scrollregion=self.drift_canvas.bbox("all"))
     #
     # Stories UI Code ***************************************************
 
