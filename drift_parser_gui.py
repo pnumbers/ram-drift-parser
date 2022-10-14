@@ -310,7 +310,7 @@ class GuiManager(tk.Tk):
         # Add drift loop
         self.drift_elements = []
         self.drift_btn = ttk.Button(
-            master=self.drift_frame, text="Paint", command=self.paint_drift
+            master=self.drift_frame, text="Update Drift", command=self.update_drift
         )
         self.drift_btn.pack()
 
@@ -350,7 +350,7 @@ class GuiManager(tk.Tk):
     def reset_scrollregion(self, event):
         self.drift_canvas.configure(scrollregion=self.drift_canvas.bbox("all"))
 
-    def paint_drift(self):
+    def update_drift(self):
         n_row = 1
         drift_data = self.drift_importer.drift_data
         for i, cp in enumerate(drift_data):
