@@ -318,10 +318,18 @@ class GuiManager(tk.Tk):
             master=self.drift_frame, text="Control Points"
         )
         self.drift_frame_inner.pack()
+        self.drift_frame_inner_top = tk.Frame(
+            master=self.drift_frame_inner
+        )
+        self.drift_frame_inner_top.pack()
+        self.drift_frame_inner_bottom = tk.Frame(
+            master=self.drift_frame_inner
+        )
+        self.drift_frame_inner_bottom.pack(fill=X)
         # self.drift_frame_inner.config(width=300, height=300)
         # self.drift_frame_inner.pack_propagate(False)
 
-        self.drift_canvas = tk.Canvas(master=self.drift_frame_inner)
+        self.drift_canvas = tk.Canvas(master=self.drift_frame_inner_top)
         self.drift_canvas.pack(side=LEFT)
         self.drift_canvas.config(bg="pink")
 
@@ -330,13 +338,13 @@ class GuiManager(tk.Tk):
 
 
         self.drift_scroll_bar_y = tk.Scrollbar(
-            master=self.drift_frame_inner,
+            master=self.drift_frame_inner_top,
             orient="vertical",
         )
         self.drift_scroll_bar_y.pack(side=RIGHT, fill=Y)
 
         self.drift_scroll_bar_x = tk.Scrollbar(
-            master=self.drift_frame_inner,
+            master=self.drift_frame_inner_bottom,
             orient="horizontal",
         )
         self.drift_scroll_bar_x.pack(side=BOTTOM, fill=X)
