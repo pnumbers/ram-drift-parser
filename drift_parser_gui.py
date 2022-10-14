@@ -329,11 +329,17 @@ class GuiManager(tk.Tk):
         # self.drift_canvas.bind("<Configure>", print("HI"))
 
 
-        self.drift_scroll_bar = tk.Scrollbar(
+        self.drift_scroll_bar_y = tk.Scrollbar(
             master=self.drift_frame_inner,
             orient="vertical",
         )
-        self.drift_scroll_bar.pack(side=RIGHT, fill=Y)
+        self.drift_scroll_bar_y.pack(side=RIGHT, fill=Y)
+
+        self.drift_scroll_bar_x = tk.Scrollbar(
+            master=self.drift_frame_inner,
+            orient="horizontal",
+        )
+        self.drift_scroll_bar_x.pack(side=BOTTOM, fill=X)
 
         self.drift_values_frame = tk.Frame(
             master=self.drift_canvas,
@@ -343,8 +349,11 @@ class GuiManager(tk.Tk):
         self.drift_title = tk.Label(master=self.drift_values_frame, text="Drift")
         self.drift_title.grid(row=0, column=0, sticky="N")
 
-        self.drift_canvas.config(yscrollcommand=self.drift_scroll_bar.set)
-        self.drift_scroll_bar.config(command=self.drift_canvas.yview)
+        self.drift_canvas.config(yscrollcommand=self.drift_scroll_bar_y.set)
+        self.drift_canvas.config(xscrollcommand=self.drift_scroll_bar_x.set)
+        self.drift_scroll_bar_y.config(command=self.drift_canvas.yview)
+        self.drift_scroll_bar_x.config(command=self.drift_canvas.xview)
+
         self.drift_values_frame.bind("<Configure>", self.reset_scrollregion)
     
     def reset_scrollregion(self, event):
@@ -372,6 +381,18 @@ class GuiManager(tk.Tk):
                     case_label = tk.Label(master=self.drift_values_frame, text=f"{load_case}")
                     case_label.grid(row=n_row, column=2)
                     self.drift_elements.append(case_label)
+
+                    # disp_label = tk.Label(master=self.drift_values_frame, text=f"{load_case_data['displacement']}")
+                    # disp_label.grid(row=n_row, column=3)
+                    # self.drift_elements.append(disp_label)
+                    column_n = 3
+                    for data in load_case_data:
+                        data_label = tk.Label(master=self.drift_values_frame, text=f"{load_case_data[data]}")
+                        data_label.grid(row=n_row, column=column_n)
+                        self.drift_elements.append(data_label)
+                        column_n += 1 
+                    
+
                     n_row += 1
         # print(self.drift_canvas.bbox("all"))
         # self.drift_canvas.config(scrollregion=self.drift_canvas.bbox("all"))
