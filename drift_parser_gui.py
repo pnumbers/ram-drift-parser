@@ -103,40 +103,51 @@ class GuiManager(tk.Tk):
         # Initialize root window components
         self.import_ui()
         self.Ax_ui()
-        self.dev_ui()
         self.drift_ui()
         self.stories_ui()
         self.project_data_ui()
+        # Development UI self places into the root GUI window
+        if DEV_MODE:
+            self.dev_ui()
+
+        # self.import_ui_frame.grid(row=0, column=0)
+        self.import_ui_frame.grid(row=0, column=2)
+        self.ax_ui_frame.grid(row=1, column=0)
+        self.drift_ui_frame.grid(row=1, column=0, columnspan=2)
+        self.stories_ui_frame.grid(row=1, column=2)
+        self.project_data_ui_frame.grid(row=0, column=0)
+
 
         # TODO: Find a place to put this file label
+        #           -> Place at the bottom of the screen
         # TODO: Truncate / make this file path shorter when displayed
         self.input_file_label = ttk.Label(
             master=self.root_frame, textvariable=self.input_file_var, wraplength=500
         )
-        self.input_file_label.pack()
+        self.input_file_label.grid(row=3, column=0)
 
     #
     # Project_data_UI Elements code *******************************************
     def project_data_ui(self):
         """Initialize project data frame."""
 
-        self.project_data_frame = tk.LabelFrame(
+        self.project_data_ui_frame = tk.LabelFrame(
             master=self.root_frame, text="Seismic Project Data", padx=10, pady=10
         )
-        self.project_data_frame.pack()
+        # self.project_data_ui_frame.pack()
         self.importance_label = ttk.Label(
-            master=self.project_data_frame, text="Importance Factor: Ie = "
+            master=self.project_data_ui_frame, text="Importance Factor: Ie = "
         )
         self.deflect_amp_label = ttk.Label(
-            master=self.project_data_frame, text="Deflection Amplification: Cd = "
+            master=self.project_data_ui_frame, text="Deflection Amplification: Cd = "
         )
         self.allowable_drift_label = ttk.Label(
-            master=self.project_data_frame, text="Allowable Deflection: Δa = "
+            master=self.project_data_ui_frame, text="Allowable Deflection: Δa = "
         )
 
-        self.importance_entry = ttk.Entry(master=self.project_data_frame, width=10)
-        self.deflect_amp_entry = ttk.Entry(master=self.project_data_frame, width=10)
-        self.allowable_drift_entry = ttk.Entry(master=self.project_data_frame, width=10)
+        self.importance_entry = ttk.Entry(master=self.project_data_ui_frame, width=10)
+        self.deflect_amp_entry = ttk.Entry(master=self.project_data_ui_frame, width=10)
+        self.allowable_drift_entry = ttk.Entry(master=self.project_data_ui_frame, width=10)
 
         self.importance_label.grid(row=0, column=0, sticky="E")
         self.deflect_amp_label.grid(row=1, column=0, sticky="E")
@@ -147,7 +158,7 @@ class GuiManager(tk.Tk):
         self.allowable_drift_entry.grid(row=2, column=1, pady=2)
 
         self.project_data_save_btn = ttk.Button(
-            master=self.project_data_frame,
+            master=self.project_data_ui_frame,
             text="Save",
             command=self.project_data_save_click,
         )
@@ -186,8 +197,8 @@ class GuiManager(tk.Tk):
     # Import_UI Elements Code **********************************************
     def import_ui(self) -> None:
         """Initialize import buttons frame."""
-
-        self.buttons_frame = tk.LabelFrame(master=self.root_frame, text="Import Data")
+        self.import_ui_frame = tk.Frame(master=self.root_frame)
+        self.buttons_frame = tk.LabelFrame(master=self.import_ui_frame, text="Import Data")
         self.buttons_frame.config(padx=10, pady=10)
         self.buttons_frame.pack()
 
@@ -300,51 +311,57 @@ class GuiManager(tk.Tk):
     def drift_ui(self) -> None:
         """Initialize the drift UI elements."""
 
-        self.drift_frame = tk.LabelFrame(master=self, text="Drifts")
-        self.drift_frame.config(width=400, height=400, padx=10, pady=10)
-        self.drift_frame.grid(row=2, column=1)
+        self.drift_ui_frame = tk.LabelFrame(master=self.root_frame, text="Drifts")
+        # self.drift_ui_frame.config(width=800, height=800, padx=10, pady=10)
+        # self.drift_ui_frame.pack_propagate(False)
+        # self.drift_ui_frame.config(width=600, height=500)
 
-        # self.blank = tk.Label(master=self.drift_frame, text="Drift stuff")
+
+        # self.drift_ui_frame.config(padx=10, pady=10)
+
+        # self.drift_ui_frame.grid(row=2, column=1)
+
+        # self.blank = tk.Label(master=self.drift_ui_frame, text="Drift stuff")
         # self.blank.pack()
 
         # Add drift loop
         self.drift_elements = []
         self.drift_btn = ttk.Button(
-            master=self.drift_frame, text="Update Drift", command=self.update_drift
+            master=self.drift_ui_frame, text="Update Drift", command=self.update_drift
         )
         self.drift_btn.pack()
 
-        self.drift_frame_inner = tk.LabelFrame(
-            master=self.drift_frame, text="Control Points"
+        self.drift_ui_frame_inner = tk.LabelFrame(
+            master=self.drift_ui_frame, text="Control Points"
         )
-        self.drift_frame_inner.pack()
-        self.drift_frame_inner_top = tk.Frame(
-            master=self.drift_frame_inner
+        self.drift_ui_frame_inner.pack()
+        self.drift_ui_frame_inner_top = tk.Frame(
+            master=self.drift_ui_frame_inner
         )
-        self.drift_frame_inner_top.pack()
-        self.drift_frame_inner_bottom = tk.Frame(
-            master=self.drift_frame_inner
+        self.drift_ui_frame_inner_top.pack()
+        self.drift_ui_frame_inner_bottom = tk.Frame(
+            master=self.drift_ui_frame_inner
         )
-        self.drift_frame_inner_bottom.pack(fill=X)
-        # self.drift_frame_inner.config(width=300, height=300)
-        # self.drift_frame_inner.pack_propagate(False)
+        self.drift_ui_frame_inner_bottom.pack(fill=X)
+        # self.drift_ui_frame_inner.config(width=300, height=300)
+        # self.drift_ui_frame_inner.pack_propagate(False)
 
-        self.drift_canvas = tk.Canvas(master=self.drift_frame_inner_top)
+        self.drift_canvas = tk.Canvas(master=self.drift_ui_frame_inner_top)
         self.drift_canvas.pack(side=LEFT)
-        self.drift_canvas.config(bg="pink")
+        self.drift_canvas.config(bg="pink", height=600, width=600)
 
-        # self.drift_frame_inner.bind("<Configure>", self.reset_scrollregion)
+        # self.drift_ui_frame_inner.bind("<Configure>", self.reset_scrollregion)
         # self.drift_canvas.bind("<Configure>", print("HI"))
 
 
         self.drift_scroll_bar_y = tk.Scrollbar(
-            master=self.drift_frame_inner_top,
+            master=self.drift_ui_frame_inner_top,
             orient="vertical",
         )
         self.drift_scroll_bar_y.pack(side=RIGHT, fill=Y)
 
         self.drift_scroll_bar_x = tk.Scrollbar(
-            master=self.drift_frame_inner_bottom,
+            master=self.drift_ui_frame_inner_bottom,
             orient="horizontal",
         )
         self.drift_scroll_bar_x.pack(side=BOTTOM, fill=X)
@@ -415,15 +432,15 @@ class GuiManager(tk.Tk):
         self.story_elements = []
         self.story_height_elements = []
 
-        self.stories_frame = tk.LabelFrame(
-            master=self, text="Story Heights", padx=10, pady=10
+        self.stories_ui_frame = tk.LabelFrame(
+            master=self.root_frame, text="Story Heights", padx=10, pady=10
         )
-        self.stories_frame.grid(row=2, column=0)
+        # self.stories_ui_frame.grid(row=2, column=0)
 
-        self.story_list_frame = tk.Frame(master=self.stories_frame)
+        self.story_list_frame = tk.Frame(master=self.stories_ui_frame)
         self.story_list_frame.grid(row=0, column=0, columnspan=2)
 
-        # self.total_height_frame = tk.Frame(master=self.stories_frame)
+        # self.total_height_frame = tk.Frame(master=self.stories_ui_frame)
         # self.total_height_frame.grid(row=1, column=0, columnspan=2)
 
         # self.total_height_label = tk.Label(
@@ -437,14 +454,14 @@ class GuiManager(tk.Tk):
         # self.total_height_val_label.grid(row=0, column=1)
 
         self.save_heights_btn = ttk.Button(
-            master=self.stories_frame,
+            master=self.stories_ui_frame,
             text="Save Heights",
             command=self.save_heights_btn_click,
         )
         self.save_heights_btn.grid(row=2, column=1)
 
         self.change_heights_btn = ttk.Button(
-            master=self.stories_frame,
+            master=self.stories_ui_frame,
             text="Change Heights",
             command=self.change_heights_btn_click,
             state="disabled",
@@ -515,9 +532,9 @@ class GuiManager(tk.Tk):
             story = self.story_elements[i]["text"][:-2]
             story_heights_dict[story] = float(height)
 
-        self.drift_importer.set_story_heights(story_heights_dict)
-        total_height = self.drift_importer.total_height
-        self.total_height_val_label.config(text=f"{total_height} ft")
+        # self.drift_importer.set_story_heights(story_heights_dict)
+        # total_height = self.drift_importer.total_height
+        # self.total_height_val_label.config(text=f"{total_height} ft")
 
     #
     # Ax UI Code ********************************************************
@@ -529,13 +546,14 @@ class GuiManager(tk.Tk):
         self.x_ax = []
         self.y_ax = []
 
-        self.ax_frame = tk.LabelFrame(master=self, text="Ax Values")
-        self.ax_frame.grid(row=0, column=2, pady=20)
+        self.ax_ui_frame = tk.LabelFrame(master=self.root_frame, text="Ax Values")
+        self.ax_ui_frame.config(pady=20)
+        # self.ax_ui_frame.grid(row=0, column=2, pady=20)
 
-        self.x_axis_frame = tk.LabelFrame(master=self.ax_frame, text="X-axis")
+        self.x_axis_frame = tk.LabelFrame(master=self.ax_ui_frame, text="X-axis")
         self.x_axis_frame.grid(row=0, column=0)
 
-        self.y_axis_frame = tk.LabelFrame(master=self.ax_frame, text="Y-axis")
+        self.y_axis_frame = tk.LabelFrame(master=self.ax_ui_frame, text="Y-axis")
         self.y_axis_frame.grid(row=0, column=1)
 
         # Set starting Ax elments until data is loaded
