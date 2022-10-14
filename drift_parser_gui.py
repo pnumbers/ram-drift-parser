@@ -351,16 +351,23 @@ class GuiManager(tk.Tk):
         self.drift_canvas.configure(scrollregion=self.drift_canvas.bbox("all"))
 
     def update_drift(self):
+        for element in self.drift_elements:
+            element.destroy()
+
         n_row = 1
         drift_data = self.drift_importer.drift_data
         for i, cp in enumerate(drift_data):
             stories = self.drift_importer.drift_data[cp]["drifts"]
+            
+            label = tk.Label(master=self.drift_values_frame, text=f"{cp}")
+            label.grid(row=n_row, column=0)
+            self.drift_elements.append(label)
 
             for j, story in enumerate(stories):
 
-                label = tk.Label(master=self.drift_values_frame, text=f"{cp}")
-                label.grid(row=n_row, column=0)
-                self.drift_elements.append(label)
+                # label = tk.Label(master=self.drift_values_frame, text=f"{cp}")
+                # label.grid(row=n_row, column=0)
+                # self.drift_elements.append(label)
 
                 story_label = tk.Label(master=self.drift_values_frame, text=f"{story}")
                 story_label.grid(row=n_row, column=1)
