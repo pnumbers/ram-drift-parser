@@ -304,8 +304,8 @@ class GuiManager(tk.Tk):
         self.drift_frame.config(width=400, height=400, padx=10, pady=10)
         self.drift_frame.grid(row=2, column=1)
 
-        self.blank = tk.Label(master=self.drift_frame, text="Drift stuff")
-        self.blank.pack()
+        # self.blank = tk.Label(master=self.drift_frame, text="Drift stuff")
+        # self.blank.pack()
 
         # Add drift loop
         self.drift_elements = []
@@ -318,18 +318,15 @@ class GuiManager(tk.Tk):
             master=self.drift_frame, text="Control Points"
         )
         self.drift_frame_inner.pack()
-        # TODO: DELETE Start
-        self.drift_frame_inner.config(bg="green")
-        # DELETE End
-        self.drift_frame_inner.config(width=300, height=300)
-        self.drift_frame_inner.pack_propagate(False)
+        # self.drift_frame_inner.config(width=300, height=300)
+        # self.drift_frame_inner.pack_propagate(False)
 
         self.drift_canvas = tk.Canvas(master=self.drift_frame_inner)
         self.drift_canvas.pack(side=LEFT)
         self.drift_canvas.config(bg="pink")
 
         # self.drift_frame_inner.bind("<Configure>", self.reset_scrollregion)
-        self.drift_frame_inner.bind("<Configure>", print("HI"))
+        # self.drift_canvas.bind("<Configure>", print("HI"))
 
 
         self.drift_scroll_bar = tk.Scrollbar(
@@ -341,13 +338,17 @@ class GuiManager(tk.Tk):
         self.drift_values_frame = tk.Frame(
             master=self.drift_canvas,
         )
-        self.drift_values_frame.pack()
+        self.drift_canvas.create_window((0,0), window=self.drift_values_frame, anchor="nw")
 
         self.drift_title = tk.Label(master=self.drift_values_frame, text="Drift")
         self.drift_title.grid(row=0, column=0, sticky="N")
 
         self.drift_canvas.config(yscrollcommand=self.drift_scroll_bar.set)
         self.drift_scroll_bar.config(command=self.drift_canvas.yview)
+        self.drift_values_frame.bind("<Configure>", self.reset_scrollregion)
+    
+    def reset_scrollregion(self, event):
+        self.drift_canvas.configure(scrollregion=self.drift_canvas.bbox("all"))
 
     def paint_drift(self):
         n_row = 1
@@ -368,8 +369,7 @@ class GuiManager(tk.Tk):
         # print(self.drift_canvas.bbox("all"))
         # self.drift_canvas.config(scrollregion=self.drift_canvas.bbox("all"))
     
-    def reset_scrollregion(self, event):
-        self.drift_canvas.configure(scrollregion=self.drift_canvas.bbox("all"))
+    
     #
     # Stories UI Code ***************************************************
 
