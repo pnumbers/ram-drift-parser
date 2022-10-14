@@ -363,16 +363,16 @@ class GuiManager(tk.Tk):
             label.grid(row=n_row, column=0)
             self.drift_elements.append(label)
 
-            for j, story in enumerate(stories):
-
-                # label = tk.Label(master=self.drift_values_frame, text=f"{cp}")
-                # label.grid(row=n_row, column=0)
-                # self.drift_elements.append(label)
-
+            for story, load_cases in stories.items():
                 story_label = tk.Label(master=self.drift_values_frame, text=f"{story}")
                 story_label.grid(row=n_row, column=1)
                 self.drift_elements.append(story_label)
-                n_row += 1
+
+                for load_case, load_case_data in load_cases.items():
+                    case_label = tk.Label(master=self.drift_values_frame, text=f"{load_case}")
+                    case_label.grid(row=n_row, column=2)
+                    self.drift_elements.append(case_label)
+                    n_row += 1
         # print(self.drift_canvas.bbox("all"))
         # self.drift_canvas.config(scrollregion=self.drift_canvas.bbox("all"))
     
