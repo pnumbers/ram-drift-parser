@@ -117,7 +117,6 @@ class GuiManager(tk.Tk):
         self.stories_ui_frame.grid(row=1, column=2)
         self.project_data_ui_frame.grid(row=0, column=0)
 
-
         # TODO: Find a place to put this file label
         #           -> Place at the bottom of the screen
         # TODO: Truncate / make this file path shorter when displayed
@@ -147,7 +146,9 @@ class GuiManager(tk.Tk):
 
         self.importance_entry = ttk.Entry(master=self.project_data_ui_frame, width=10)
         self.deflect_amp_entry = ttk.Entry(master=self.project_data_ui_frame, width=10)
-        self.allowable_drift_entry = ttk.Entry(master=self.project_data_ui_frame, width=10)
+        self.allowable_drift_entry = ttk.Entry(
+            master=self.project_data_ui_frame, width=10
+        )
 
         self.importance_label.grid(row=0, column=0, sticky="E")
         self.deflect_amp_label.grid(row=1, column=0, sticky="E")
@@ -198,7 +199,9 @@ class GuiManager(tk.Tk):
     def import_ui(self) -> None:
         """Initialize import buttons frame."""
         self.import_ui_frame = tk.Frame(master=self.root_frame)
-        self.buttons_frame = tk.LabelFrame(master=self.import_ui_frame, text="Import Data")
+        self.buttons_frame = tk.LabelFrame(
+            master=self.import_ui_frame, text="Import Data"
+        )
         self.buttons_frame.config(padx=10, pady=10)
         self.buttons_frame.pack()
 
@@ -316,7 +319,6 @@ class GuiManager(tk.Tk):
         # self.drift_ui_frame.pack_propagate(False)
         # self.drift_ui_frame.config(width=600, height=500)
 
-
         # self.drift_ui_frame.config(padx=10, pady=10)
 
         # self.drift_ui_frame.grid(row=2, column=1)
@@ -335,24 +337,19 @@ class GuiManager(tk.Tk):
             master=self.drift_ui_frame, text="Control Points"
         )
         self.drift_ui_frame_inner.pack()
-        self.drift_ui_frame_inner_top = tk.Frame(
-            master=self.drift_ui_frame_inner
-        )
+        self.drift_ui_frame_inner_top = tk.Frame(master=self.drift_ui_frame_inner)
         self.drift_ui_frame_inner_top.pack()
-        self.drift_ui_frame_inner_bottom = tk.Frame(
-            master=self.drift_ui_frame_inner
-        )
+        self.drift_ui_frame_inner_bottom = tk.Frame(master=self.drift_ui_frame_inner)
         self.drift_ui_frame_inner_bottom.pack(fill=X)
         # self.drift_ui_frame_inner.config(width=300, height=300)
         # self.drift_ui_frame_inner.pack_propagate(False)
 
         self.drift_canvas = tk.Canvas(master=self.drift_ui_frame_inner_top)
         self.drift_canvas.pack(side=LEFT)
-        self.drift_canvas.config(bg="pink", height=600, width=600)
+        self.drift_canvas.config(bg="pink", height=400, width=700)
 
         # self.drift_ui_frame_inner.bind("<Configure>", self.reset_scrollregion)
         # self.drift_canvas.bind("<Configure>", print("HI"))
-
 
         self.drift_scroll_bar_y = tk.Scrollbar(
             master=self.drift_ui_frame_inner_top,
@@ -369,7 +366,9 @@ class GuiManager(tk.Tk):
         self.drift_values_frame = tk.Frame(
             master=self.drift_canvas,
         )
-        self.drift_canvas.create_window((0,0), window=self.drift_values_frame, anchor="nw")
+        self.drift_canvas.create_window(
+            (0, 0), window=self.drift_values_frame, anchor="nw"
+        )
 
         self.drift_title = tk.Label(master=self.drift_values_frame, text="Drift")
         self.drift_title.grid(row=0, column=0, sticky="N")
@@ -380,7 +379,7 @@ class GuiManager(tk.Tk):
         self.drift_scroll_bar_x.config(command=self.drift_canvas.xview)
 
         self.drift_values_frame.bind("<Configure>", self.reset_scrollregion)
-    
+
     def reset_scrollregion(self, event):
         self.drift_canvas.configure(scrollregion=self.drift_canvas.bbox("all"))
 
@@ -392,7 +391,7 @@ class GuiManager(tk.Tk):
         drift_data = self.drift_importer.drift_data
         for i, cp in enumerate(drift_data):
             stories = self.drift_importer.drift_data[cp]["drifts"]
-            
+
             label = tk.Label(master=self.drift_values_frame, text=f"{cp}")
             label.grid(row=n_row, column=0)
             self.drift_elements.append(label)
@@ -403,7 +402,9 @@ class GuiManager(tk.Tk):
                 self.drift_elements.append(story_label)
 
                 for load_case, load_case_data in load_cases.items():
-                    case_label = tk.Label(master=self.drift_values_frame, text=f"{load_case}")
+                    case_label = tk.Label(
+                        master=self.drift_values_frame, text=f"{load_case}"
+                    )
                     case_label.grid(row=n_row, column=2)
                     self.drift_elements.append(case_label)
 
@@ -412,17 +413,18 @@ class GuiManager(tk.Tk):
                     # self.drift_elements.append(disp_label)
                     column_n = 3
                     for data in load_case_data:
-                        data_label = tk.Label(master=self.drift_values_frame, text=f"{load_case_data[data]}")
+                        data_label = tk.Label(
+                            master=self.drift_values_frame,
+                            text=f"{load_case_data[data]}",
+                        )
                         data_label.grid(row=n_row, column=column_n)
                         self.drift_elements.append(data_label)
-                        column_n += 1 
-                    
+                        column_n += 1
 
                     n_row += 1
         # print(self.drift_canvas.bbox("all"))
         # self.drift_canvas.config(scrollregion=self.drift_canvas.bbox("all"))
-    
-    
+
     #
     # Stories UI Code ***************************************************
 
