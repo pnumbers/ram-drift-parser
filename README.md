@@ -2,7 +2,7 @@
 
 Copyright (c) 2022 Paul Numbers
 
-This module parses RAM drift csv files, anaylzes the data, and presents applicable dift utilization and Ax values to facillate quick interation of RAM lateral models.
+This module parses RAM drift csv files, anaylzes the data, and presents applicable drift utilization and Ax values to facillate quick interation of RAM lateral models.
 
 ## Current Status: Work-in-Progress
 
