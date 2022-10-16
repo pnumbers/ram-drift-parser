@@ -341,7 +341,7 @@ class GuiManager(tk.Tk):
         self.drift_btn.pack()
 
         self.drift_ui_frame_inner = tk.LabelFrame(
-            master=self.drift_ui_frame, text="Control Points"
+            master=self.drift_ui_frame, text="Drift Data"
         )
         self.drift_ui_frame_inner.pack()
         self.drift_ui_frame_inner_top = tk.Frame(master=self.drift_ui_frame_inner)
@@ -353,7 +353,7 @@ class GuiManager(tk.Tk):
 
         self.drift_canvas = tk.Canvas(master=self.drift_ui_frame_inner_top)
         self.drift_canvas.pack(side=LEFT)
-        self.drift_canvas.config(bg="pink", height=400, width=700)
+        self.drift_canvas.config(height=400, width=700)
 
         # self.drift_ui_frame_inner.bind("<Configure>", self.reset_scrollregion)
         # self.drift_canvas.bind("<Configure>", print("HI"))
@@ -377,8 +377,7 @@ class GuiManager(tk.Tk):
             (0, 0), window=self.drift_values_frame, anchor="nw"
         )
 
-        self.drift_title = tk.Label(master=self.drift_values_frame, text="Drift")
-        self.drift_title.grid(row=0, column=0, sticky="N")
+        self.set_drift_values_titles()
 
         self.drift_canvas.config(yscrollcommand=self.drift_scroll_bar_y.set)
         self.drift_canvas.config(xscrollcommand=self.drift_scroll_bar_x.set)
@@ -389,6 +388,33 @@ class GuiManager(tk.Tk):
 
     def reset_scrollregion(self, event):
         self.drift_canvas.configure(scrollregion=self.drift_canvas.bbox("all"))
+
+    def set_drift_values_titles(self):
+        self.drift_title = tk.Label(
+            master=self.drift_values_frame, text="Control Points"
+        )
+        self.drift_title.grid(row=0, column=0)
+
+        self.drift_title = tk.Label(master=self.drift_values_frame, text="Story")
+        self.drift_title.grid(row=0, column=1)
+
+        self.drift_title = tk.Label(master=self.drift_values_frame, text="Load Case")
+        self.drift_title.grid(row=0, column=2)
+
+        self.drift_title = tk.Label(master=self.drift_values_frame, text="Disp.")
+        self.drift_title.grid(row=0, column=3)
+
+        self.drift_title = tk.Label(master=self.drift_values_frame, text="Max Disp.")
+        self.drift_title.grid(row=0, column=4)
+
+        self.drift_title = tk.Label(master=self.drift_values_frame, text="Story Drift")
+        self.drift_title.grid(row=0, column=5)
+
+        self.drift_title = tk.Label(master=self.drift_values_frame, text="Max Drift")
+        self.drift_title.grid(row=0, column=6)
+
+        self.drift_title = tk.Label(master=self.drift_values_frame, text="Drift Ratio")
+        self.drift_title.grid(row=0, column=7)
 
     def update_drift(self):
         for element in self.drift_elements:
