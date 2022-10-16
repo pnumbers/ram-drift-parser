@@ -25,7 +25,7 @@ APP_HEIGHT = 700
 MAPPED_OPTIONS = {"width": 50}
 
 # DEV
-DEV_MODE = True
+DEV_MODE = False
 if DEV_MODE:
     INPUT_FILE_DEV = "raw_data_drift_cases.csv"
 
@@ -61,14 +61,21 @@ class GuiManager(tk.Tk):
 
     def set_centered_window_size(self, width, height) -> None:
         """Set the root window in the center of the screen."""
-
+        # width = 0
+        # height = 0
+        # screen_width = self.winfo_screenwidth()
+        # screen_height = self.winfo_screenheight()
         # TODO: Test on windows. If it works, delete the commented code
         # self.monitor_screen_size = get_screen_resolution()
         # x = int((self.monitor_screen_size[0] - width) / 2)
         # y = int((self.monitor_screen_size[1] - height) / 2)
         x = int((self.winfo_screenwidth() - width) / 2)
         y = int((self.winfo_screenheight() - height) / 2)
+
+        # x = 0
+        # y = 0
         self.geometry(f"{width}x{height}+{x}+{y}")
+        # self.geometry(f"{screen_width}x{screen_height}+{x}+{y}")
 
     def initialize_dynamic_variables(self) -> None:
         """Initializes the dynamic variables for GUI"""
