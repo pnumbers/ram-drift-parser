@@ -119,7 +119,7 @@ class GuiManager(tk.Tk):
 
         # self.import_ui_frame.grid(row=0, column=0)
         self.import_ui_frame.grid(row=0, column=2)
-        self.ax_ui_frame.grid(row=1, column=0)
+        self.ax_ui_frame.grid(row=0, column=1)
         self.drift_ui_frame.grid(row=1, column=0, columnspan=2)
         self.stories_ui_frame.grid(row=1, column=2)
         self.project_data_ui_frame.grid(row=0, column=0)
