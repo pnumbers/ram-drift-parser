@@ -42,7 +42,7 @@ The remaining modules are GUI and command line UI's to support the use of the dr
 - Drift Utilization
     - Calculate and display the drift utilization for each load case
     - Display a window with the controlling load case and utilization ratio for each story
-- Auto-load drift data upon import/refresh data
+- Auto-load drift data upon refresh data
 - Quick look up of drift data based on story and load case
 
 # Legal
