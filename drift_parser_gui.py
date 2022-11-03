@@ -240,6 +240,7 @@ class GuiManager(tk.Tk):
             self.input_file_var.set(f"RAM Drift File: \n{ram_filepath}")
 
         self.set_story_rows()
+        self.update_drift()
 
         # Display Ax values on import
         # TODO: Wipe Ax components and display "No drift data" or something
