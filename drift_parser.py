@@ -61,7 +61,7 @@ class RamDriftImporter:
             reader = csv.reader(file)
             self.data = [row for row in reader]
 
-    def set_import_file_path(self, filepath):
+    def set_import_file_path(self, filepath) -> bool:
         if filepath and os.path.exists(filepath):
             self.import_file_path = filepath
             return True
@@ -78,7 +78,7 @@ class RamDriftImporter:
         self.parse_data()
         self.set_stories()
 
-    def reimport(self):
+    def reimport(self) -> None:
         """Re-imports data from current import_file"""
 
         self.import_drift_data()
@@ -118,7 +118,7 @@ class RamDriftImporter:
                     load_case_equation,
                 ]
 
-    def parse_drift_data(self):
+    def parse_drift_data(self) -> None:
         self.drift_data = {}
         self.drift_data_stories = []
 
@@ -182,7 +182,7 @@ class RamDriftImporter:
         # Adds the final control point to the drift data
         self.drift_data[control_point_name] = control_point_data
 
-    def parse_torsional_data(self):
+    def parse_torsional_data(self) -> None:
         """Parses the 'Torsional Irregularity Data from the input file"""
         self.torsion_data = {}
         axis = None
@@ -244,13 +244,13 @@ class RamDriftImporter:
         if self.torsion_data:
             self.torsion_data[axis] = axis_dict
 
-    def parse_data(self):
+    def parse_data(self) -> None:
         self.get_section_indexes()
         self.get_load_cases()
         self.parse_drift_data()
         self.parse_torsional_data()
 
-    def parse_stories(self):
+    def parse_stories(self) -> None:
         stories = []
         for cp in self.drift_data:
             for story in self.drift_data[cp]["drifts"].keys():
@@ -277,24 +277,24 @@ class RamDriftImporter:
         else:
             return False
 
-    def wipe_story_heights(self):
+    def wipe_story_heights(self) -> None:
         self.story_heights = {}
         self.total_height = None
 
     # Output Data Section
-    def get_all_output(self):
+    def get_all_output(self) -> dict:
         return (self.load_cases, self.drift_data, self.torsion_data)
 
-    def get_torsional_output(self):
+    def get_torsional_output(self) -> dict:
         return self.torsion_data
 
-    def get_load_cases_output(self):
-        return self.get_load_cases
+    def get_load_cases_output(self) -> dict:
+        return self.load_cases
 
-    def get_drift_output(self):
+    def get_drift_output(self) -> dict:
         return self.drift_data
 
-    def get_stories(self):
+    def get_stories(self) -> List[str]:
         return self.stories
 
     # Print Data Section
