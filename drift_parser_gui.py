@@ -29,23 +29,6 @@ DEV_MODE = False
 if DEV_MODE:
     INPUT_FILE_DEV = "raw_data_drift_cases.csv"
 
-# TODO: Delete this code if the thkinter version works on windows
-def get_screen_resolution():
-    """Returns the screen resolution in [width, heighth]"""
-
-    os_name = platform.system()
-    if os_name == "Darwin":
-        # Fix this so that it correctly takes the screen width and heigth
-        # w = NSScreen.mainScreen().frame().size.width
-        # h = NSScreen.mainScreen().frame().size.height
-        w = 2560 / 2
-        h = 1600 / 2
-    else:
-        user32 = ctypes.windll.user32
-        user32.SetProcessDPIAware()
-        [w, h] = [user32.GetSystemMetrics(0), user32.GetSystemMetrics(1)]
-    return [w, h]
-
 
 class GuiManager(tk.Tk):
     def __init__(self) -> None:
