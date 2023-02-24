@@ -1,12 +1,11 @@
-from cgi import test
-from doctest import master
 import platform
-from textwrap import fill
 
 import tkinter as tk
-from tkinter import RIGHT, Y, ttk
-from tkinter import *
+from tkinter import RIGHT, LEFT, BOTTOM, X, Y, ttk
 from tkinter import filedialog, messagebox
+
+# TODO: Verify imports and delete wildcard import
+from tkinter import *
 
 OS_NAME = platform.system()
 if OS_NAME == "Darwin":
