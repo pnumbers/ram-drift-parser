@@ -71,10 +71,6 @@ class GuiManager(tk.Tk):
 
         self.input_file_var = tk.StringVar(master=self, value="RAM Drift File:")
 
-    #
-    # Main Window Code **************************************************
-    # TODO: Break this up into smaller chunks
-
     def initialize_window(self) -> None:
         # Root Frame for everything else
         self.menubar = tk.Menu(master=self, background="blue")
