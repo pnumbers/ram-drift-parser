@@ -1,20 +1,9 @@
-import platform
-
 import tkinter as tk
 from tkinter import RIGHT, LEFT, BOTTOM, X, Y, ttk
 from tkinter import filedialog, messagebox
 
 # TODO: Verify imports and delete wildcard import
 from tkinter import *
-
-OS_NAME = platform.system()
-if OS_NAME == "Darwin":
-    # TODO: Find new library that will replace AppKit
-    # or a way to make AppKit work again
-    # from AppKit import NSScreen
-    pass
-elif OS_NAME == "Windows":
-    import ctypes
 
 from drift_parser import RamDriftImporter
 
