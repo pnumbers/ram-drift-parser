@@ -61,21 +61,10 @@ class GuiManager(tk.Tk):
 
     def set_centered_window_size(self, width, height) -> None:
         """Set the root window in the center of the screen."""
-        # width = 0
-        # height = 0
-        # screen_width = self.winfo_screenwidth()
-        # screen_height = self.winfo_screenheight()
-        # TODO: Test on windows. If it works, delete the commented code
-        # self.monitor_screen_size = get_screen_resolution()
-        # x = int((self.monitor_screen_size[0] - width) / 2)
-        # y = int((self.monitor_screen_size[1] - height) / 2)
+ 
         x = int((self.winfo_screenwidth() - width) / 2)
         y = int((self.winfo_screenheight() - height) / 2)
-
-        # x = 0
-        # y = 0
         self.geometry(f"{width}x{height}+{x}+{y}")
-        # self.geometry(f"{screen_width}x{screen_height}+{x}+{y}")
 
     def initialize_dynamic_variables(self) -> None:
         """Initializes the dynamic variables for GUI"""
@@ -205,6 +194,7 @@ class GuiManager(tk.Tk):
     # Import_UI Elements Code **********************************************
     def import_ui(self) -> None:
         """Initialize import buttons frame."""
+
         self.import_ui_frame = tk.Frame(master=self.root_frame)
         self.buttons_frame = tk.LabelFrame(
             master=self.import_ui_frame, text="Import Data"
