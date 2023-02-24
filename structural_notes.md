@@ -1,7 +1,7 @@
 # Structural Notes
 
 This file serves as a place to note pertinant structural engineering
-information regarding the use and developemtn of the ram-drift-parser scripts.
+information regarding the use and development of the ram-drift-parser scripts.
 
 ---
 
